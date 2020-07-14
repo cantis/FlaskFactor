@@ -8,7 +8,7 @@ load_dotenv(path.join(basedir, '.env'))
 
 class Config:
     """ SET Flask config variables. """
-
+    FLASK_APP = 'app.py'
     SECRET_KEY = environ.get('SECRET_KEY')
 
     STATIC_FOLDER = 'static'
@@ -21,6 +21,7 @@ class Config:
 
 class DevConfig(Config):
     FLASK_ENV = 'development'
+    FLASK_DEBUG = True
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = environ.get('DEV_DATABASE_URI')

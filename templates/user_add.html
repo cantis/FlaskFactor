@@ -9,7 +9,7 @@
             <form action="/user/add" method="POST" >
                 <dl>
                     {# {{ form.csrf_token }}
-                    {{ wtf.form_field(form.username) }}
+                    {{ wtf.form_field(form.email) }}
                     {{ wtf.form_field(form.password) }} #}
                     {{ wtf.quick_form(form) }}
                     <input class="btn btn-primary" type="submit" value="Add User">

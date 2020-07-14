@@ -26,7 +26,7 @@ class User(db.Model):
         db.Integer,
         primary_key=True
     )
-    username = db.Column(
+    email = db.Column(
         db.String(20),
         index=False,
         unique=True,
@@ -72,14 +72,14 @@ def show_add_user_form():
     form = AddUserForm()
 
     if form.validate_on_submit():
-        username = form.username.data
+        email = form.email.data
         password = form.password.data
         firstname = form.firstname.data
         lastname = form.lastname.data
-        new_user = User(username=username, password=password, firstname=firstname, lastname=lastname)
+        new_user = User(email=email, password=password, firstname=firstname, lastname=lastname)
         db.session.add(new_user)
         db.session.commit()
-        return f'Form Successfully Submitted User:{username} Pass:{password}'
+        return f'Form Successfully Submitted User:{email} Pass:{password}'
     return render_template('user_add.html', form=form)
 
 
