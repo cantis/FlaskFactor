@@ -9,10 +9,7 @@ from wtforms.validators import InputRequired, Email, Length, AnyOf
 
 
 app = app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
-app.config['SQLALCHEMY_ECHO'] = False
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object('config.DevConfig')
 app.app_context().push()
 
 bs = Bootstrap(app)

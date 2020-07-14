@@ -11,13 +11,13 @@
             "module": "flask",
             "env": {
                 // General
-                "FLASK_APP": "app.py",
-                "FLASK_ENV": "development",
-                "FLASK_DEBUG": "1",
-                "SECRET_KEY": "a secret string",
+                // "FLASK_APP": "app.py",
+                // "FLASK_ENV": "development",
+                // "FLASK_DEBUG": "1",
+                // "SECRET_KEY": "a secret string",
 
                 // Database
-                "SQLALCHEMY_DATABASE_URI": "sqlite:///factor.sqlite"
+                // "SQLALCHEMY_DATABASE_URI": "sqlite:///factor.sqlite"
             },
             "args": [
                 "run"
