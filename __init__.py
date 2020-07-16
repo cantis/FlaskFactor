@@ -20,9 +20,13 @@ def create_app():
 
     # Import parts of our application (add new 'components' here)
     from .home import home
+    # from .users import user
+    from .characters import characters
 
     # Register Blueprints
     app.register_blueprint(home.home_bp)
+    # app.register_blueprint(user.user_bp)
+    app.register_blueprint(characters.character_bp)
 
     with app.app_context():
         return app
