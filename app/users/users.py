@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import InputRequired, Email, Length, AnyOf
-from models import User
-from . import db
+
+from app.models.user import User, db
 
 # Blueprint Configuration
 user_bp = Blueprint('user_bp', __name__, template_folder='templates', static_folder='static')
@@ -22,7 +22,9 @@ class AddUserForm(FlaskForm):
 @user_bp.route('/user/add', methods=['GET', 'POST'])
 def show_add_user_form():
     """ Show user add form and handle inserting new users """
+
     form = AddUserForm()
+    # check and see if it's a POST, i.e. it's a form submit
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
@@ -33,6 +35,8 @@ def show_add_user_form():
         db.session.commit()
         # return f'Form Successfully Submitted User:{email} Pass:{password}'
         return redirect(url_for('user_list.html'))
+
+    # if it's just a GET show the form
     return render_template('user_add.html', form=form)
 
 
@@ -40,7 +44,4 @@ def show_add_user_form():
 def show_user_list_form():
     """ Show list of current users """
     users = User.query.all()
-    return render_template(
-        'user_list.html',
-        users=users
-    )
+    return render_template('user_list.html', users=users)
