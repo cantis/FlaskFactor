@@ -11,17 +11,22 @@ user_bp = Blueprint('user_bp', __name__, template_folder='templates', static_fol
 
 # Form Definition
 class AddUserForm(FlaskForm):
-    """ User Form Fields """
+    """Add User Form Declaration"""
     email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10), AnyOf(['secret', 'password'])])
     firstname = StringField(label='First Name', validators=[InputRequired(message='A first name is required'), Length(min=1, max=20)])
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
 
 
+# class ListUsersForm(FlaskForm):
+#     """List Users Form Declaration"""
+
+
+
 # Handlers
 @user_bp.route('/user/add', methods=['GET', 'POST'])
 def show_add_user_form():
-    """ Show user add form and handle inserting new users """
+    """Show user add form and handle inserting new users."""
 
     form = AddUserForm()
     # check and see if it's a POST, i.e. it's a form submit
@@ -42,6 +47,6 @@ def show_add_user_form():
 
 @user_bp.route('/user', methods=['GET'])
 def show_user_list_form():
-    """ Show list of current users """
+    """Show list of current users."""
     users = User.query.all()
     return render_template('user_list.html', users=users)

@@ -21,4 +21,5 @@ class CharacterListForm(FlaskForm):
 def show_character_list_form():
     """ Show list of current characters for user """
     characters = Character.query.all()
-    return render_template('character_list.html', characters=characters)
+    form = CharacterListForm()
+    return render_template('character_list.html', form=form)

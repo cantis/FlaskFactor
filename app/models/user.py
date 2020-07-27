@@ -12,4 +12,4 @@ class User(db.Model):
     password = Column(String(32), index=False)
     firstname = Column(String(20))
     lastname = Column(String(20))
-    charcters = relationship("characters")
+    charcters = relationship("Character")
