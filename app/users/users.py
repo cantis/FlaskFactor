@@ -1,4 +1,6 @@
+from typing import Iterable
 from flask import Blueprint, render_template, redirect, url_for
+from flask_table import Table, Col
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import InputRequired, Email, Length, AnyOf
@@ -18,11 +20,6 @@ class AddUserForm(FlaskForm):
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
 
 
-# class ListUsersForm(FlaskForm):
-#     """List Users Form Declaration"""
-
-
-
 # Handlers
 @user_bp.route('/user/add', methods=['GET', 'POST'])
 def show_add_user_form():
@@ -39,7 +36,7 @@ def show_add_user_form():
         db.session.add(new_user)
         db.session.commit()
         # return f'Form Successfully Submitted User:{email} Pass:{password}'
-        return redirect(url_for('user_list.html'))
+        return redirect(url_for('user_bp.show_user_list_form'))
 
     # if it's just a GET show the form
     return render_template('user_add.html', form=form)
@@ -48,5 +45,5 @@ def show_add_user_form():
 @user_bp.route('/user', methods=['GET'])
 def show_user_list_form():
     """Show list of current users."""
-    users = User.query.all()
-    return render_template('user_list.html', users=users)
+    userList = User.query.all()
+    return render_template('user_list.html', objects=userList)
