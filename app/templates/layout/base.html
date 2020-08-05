@@ -3,6 +3,9 @@
 {% block head %}
   {{ super() }}
   {{ fontawesome_html() }}
+  {{ toastr.include_jquery() }}
+  {{ toastr.include_toastr_css() }}
+  {{ toastr.message() }}
 {% endblock head %}
   
 {% block title %}
@@ -18,6 +21,7 @@
 {% endblock body_attribs%}
 
 {% block body %}
+  {{ toastr.include_toastr_js() }}
   {{ super() }} 
   {% include "layout/footer.html" %}
 {% endblock body %}

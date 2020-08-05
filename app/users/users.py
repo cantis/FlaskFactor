@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
-from flask.globals import request
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, HiddenField
 from wtforms.validators import InputRequired, Email, Length, AnyOf
@@ -43,7 +42,7 @@ def show_add_user_form():
         new_user = User(email=email, password=password, firstname=firstname, lastname=lastname)
         db.session.add(new_user)
         db.session.commit()
-        
+        flash('User Added', 'success')
         return redirect(url_for('user_bp.show_user_list_form'))
 
     # if it's just a GET show the form
@@ -69,6 +68,19 @@ def show_edit_user_form(id):
     else:
         form.process(obj=edit_user)  # this provides the existing data to display on the form
         return render_template('user_edit.html', form=form, user=edit_user)
+
+
+@user_bp.route('/user/delete/<id>', methods=['GET', 'POST'])
+def delete_user(id):
+    """Delete a user"""
+    delete_user = User.query.filter_by(id=id).first()
+    if delete_user is not None:
+        User.query.filter_by(id=id).delete()
+        db.session.commit()
+        flash('User Deleted', 'success')
+    else:
+        flash('User not found. No Action.', 'warning')
+    return redirect(url_for('user_bp.show_user_list_form'))
 
 
 @user_bp.route('/user', methods=['GET'])

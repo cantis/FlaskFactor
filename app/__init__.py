@@ -1,9 +1,11 @@
 from flask import Flask
-from flask_fontawesome import FontAwesome
 from flask_bootstrap import Bootstrap
+from flask_fontawesome import FontAwesome
+from flask_toastr import Toastr
 
 bs = Bootstrap()
 fa = FontAwesome()
+toastr = Toastr()
 
 
 def create_app():
@@ -14,6 +16,7 @@ def create_app():
     # Set up global objects
     bs.init_app(app)
     fa.init_app(app)
+    toastr.init_app(app)
 
     # Database object, declared in the models __init__.py
     from .models import db
