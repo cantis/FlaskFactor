@@ -10,4 +10,6 @@ class Character(db.Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey(User.id))
     character_name = Column(String, nullable=False)
+    character_class = Column(String)
     is_active = Column(Boolean, default=True)
+    is_dead = Column(Boolean, default=False)

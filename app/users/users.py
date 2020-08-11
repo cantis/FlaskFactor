@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, HiddenField
-from wtforms.validators import InputRequired, Email, Length, AnyOf
+from wtforms.validators import InputRequired, Email, Length
 
 from app.models.user import User, db
 
@@ -15,7 +15,7 @@ class AddUserForm(FlaskForm):
     email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     firstname = StringField(label='First Name', validators=[InputRequired(message='A first name is required'), Length(min=1, max=20)])
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
-    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10), AnyOf(['secret', 'password'])])
+    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10)])
 
 
 class EditUserForm(FlaskForm):
@@ -24,10 +24,17 @@ class EditUserForm(FlaskForm):
     email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     firstname = StringField(label='First Name', validators=[InputRequired(message='A first name is required'), Length(min=1, max=20)])
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
-    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10), AnyOf(['secret', 'password'])])
+    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10)])
 
 
 # Handlers
+@user_bp.route('/user', methods=['GET'])
+def show_user_list_form():
+    """Show list of current users."""
+    userList = User.query.all()
+    return render_template('user_list.html', users=userList)
+
+
 @user_bp.route('/user/add', methods=['GET', 'POST'])
 def show_add_user_form():
     """Show user add form and handle inserting new users."""
@@ -83,8 +90,4 @@ def delete_user(id):
     return redirect(url_for('user_bp.show_user_list_form'))
 
 
-@user_bp.route('/user', methods=['GET'])
-def show_user_list_form():
-    """Show list of current users."""
-    userList = User.query.all()
-    return render_template('user_list.html', users=userList)
+
