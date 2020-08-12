@@ -1,0 +1,19 @@
+{% extends "layout/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+    <div class="container">
+        <div class="row col-md-offset-3 col-md6">
+            <h2>Player - Edit</h2>
+        </div>
+        <div class="row col-md-offset-3 col-md-6">
+            <form action="/player/{{player.id}}" method="POST">
+                <dl>
+                    {{ wtf.quick_form(form)}}
+                    <a href="/player" class="btn btn-secondary" role="button" aria-disabled="true" >Cancel</a>
+                    <input name="submit_button" type="submit" class="btn btn-primary" value="Save Player">
+                </dl>
+            </form>
+        </div>
+    </div>
+{% endblock content%}

@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
 
 from app.models import db
 
@@ -12,4 +11,3 @@ class User(db.Model):
     password = Column(String(32), index=False)
     firstname = Column(String(20))
     lastname = Column(String(20))
-    charcters = relationship("Character")

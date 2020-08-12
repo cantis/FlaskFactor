@@ -26,11 +26,13 @@ def create_app():
     from .home import home
     from .users import users
     from .characters import characters
+    from .players import players
 
     # Register Blueprints
     app.register_blueprint(home.home_bp)
     app.register_blueprint(users.user_bp)
     app.register_blueprint(characters.character_bp)
+    app.register_blueprint(players.player_bp)
 
     with app.app_context():
         db.create_all()
