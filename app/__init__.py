@@ -2,10 +2,12 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_fontawesome import FontAwesome
 from flask_toastr import Toastr
+from flask_login import LoginManager
 
 bs = Bootstrap()
 fa = FontAwesome()
 toastr = Toastr()
+login_manager = LoginManager()
 
 
 def create_app():
@@ -17,6 +19,7 @@ def create_app():
     bs.init_app(app)
     fa.init_app(app)
     toastr.init_app(app)
+    login_manager.init_app(app)
 
     # Database object, declared in the models __init__.py
     from .models import db
@@ -36,4 +39,19 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-        return app
+
+    # Imported User here to avoid the circular, hard to use User when user isn't defined yet
+    from app.models.user import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        """ Given 'user_id', return the associated user object.
+        :param unicode user_id: user_id (email) of user to retrieve
+        """
+        user = User.get(user_id)
+        if user is not None:
+            return user
+        else:
+            return None
+
+    return app
