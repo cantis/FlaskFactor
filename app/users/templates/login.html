@@ -4,12 +4,12 @@
 {% block content %}
     <div class="container">
         <div class="row col-md-offset-3 col-md-6">
-            Factor - Login
+            <h2>Factor - Login</h2>
         </div>
         <div class="row col-md-offset-3 col-md-6">
             <form action="/login" method="POST">
                 <dl>
-                    {{ wtf.quck_form(form) }}
+                    {{ wtf.quick_form(form) }}
                     <input class="btn btn-primary" type="submit" value="Add User">
                 </dl>
             </form>

@@ -37,7 +37,7 @@ def show_character_list_form():
     """ Show list of current characters for user """
 
     # TODO: get current user from session
-    user = User.query.filter_by(id=1).first()
+    user = User.query.filter_by(user_id=1).first()
 
     character_list = Character.query.all()
     return render_template('character_list.html', characters=character_list, user=user)
