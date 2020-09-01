@@ -21,6 +21,11 @@ def create_app():
     toastr.init_app(app)
     login_manager.init_app(app)
 
+    # Login Configuration
+    login_manager.login_view = 'user_bp.login'
+    login_manager.login_message = 'Please log in...'
+    login_manager.login_message_category = 'info'
+
     # Database object, declared in the models __init__.py
     from .models import db
     db.init_app(app)
@@ -48,7 +53,7 @@ def create_app():
         """ Given 'user_id', return the associated user object.
         :param unicode user_id: user_id (email) of user to retrieve
         """
-        user = User.get(user_id)
+        user = User.query.filter_by(user_id=user_id).first()
         if user is not None:
             return user
         else:

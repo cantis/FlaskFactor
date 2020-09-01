@@ -1,5 +1,4 @@
 import unittest
-
 from werkzeug.security import check_password_hash
 
 from app.users.users import hash_password

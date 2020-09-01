@@ -18,7 +18,7 @@ class UserAddForm(FlaskForm):
     email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     firstname = StringField(label='First Name', validators=[InputRequired(message='A first name is required'), Length(min=1, max=20)])
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
-    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10)])
+    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=20)])
 
 
 class UserProfileForm(FlaskForm):
@@ -26,13 +26,13 @@ class UserProfileForm(FlaskForm):
     email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     firstname = StringField(label='First Name', validators=[InputRequired(message='A first name is required'), Length(min=1, max=20)])
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
-    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10)])
+    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=20)])
 
 
 class LoginForm(FlaskForm):
     """Login Form"""
     email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
-    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=10)])
+    password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=20)])
     remember_me = BooleanField(label='Remember me')
 
 
@@ -48,7 +48,6 @@ def show_user_list_form():
 @user_bp.route('/user/register', methods=['GET', 'POST'])
 def show_user_register_form():
     """Show user add form and handle inserting new users."""
-
     form = UserAddForm()
     # check and see if it's a POST, i.e. it's a form submit
     if form.validate_on_submit():
@@ -102,7 +101,7 @@ def delete_user(email):
 
 
 @user_bp.route('/login', methods=['GET', 'POST'])
-def show_login_form():
+def login():
     """ For GET requests, display the login form.
     for POST, process the form.
     """
@@ -113,19 +112,30 @@ def show_login_form():
         return redirect(url_for('home_bp.index'))
 
     if form.validate_on_submit():
-        # POST Request, confirm password and log in if ok
+        # POST Request
+
+        # get the existing user
         user = User.query.get(form.email.data)
-        if user is None or not user.is_password_valid(user.password, form.password.data):
+
+        # Check if user found and check if the supplied password is ok
+        if user is None or not is_password_valid(user.password, form.password.data):
             flash('Invalid username or password.')
-            return redirect(url_for('show_login_form'))
-        login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('home_bp.index'))
+            return redirect(url_for('user_bp.login'))
+
+        # Valid login, go ahead and try and log in
+        if login_user(user, remember=form.remember_me.data):
+            flash(f'{user.firstname} logged in', 'success')
+            return redirect(url_for('home_bp.index'))
+        else:
+            flash('Login not successfull', 'warning')
+            return redirect(url_for('user_bp.login'))
 
     # GET request, show the login form
     return render_template('login.html', form=form)
 
 
 def is_password_valid(hashed_password, input_password):
+    """ check that the supplied password is correct """
     result = check_password_hash(hashed_password, input_password)
     return result
 
@@ -134,6 +144,7 @@ def hash_password(cleartext_password):
     """ hash a password """
     hashed_password = generate_password_hash(cleartext_password)
     return hashed_password
+
 
 @user_bp.route('/logout', methods=['GET'])
 @login_required

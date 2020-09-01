@@ -4,8 +4,9 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Python: Flask",
+            "name": "Factor Main",
             "type": "python",
             "request": "launch",
             "module": "flask",
@@ -19,7 +20,7 @@
             "jinja": true
         },
         {
-            "name": "Create_User",
+            "name": "Create Admin User",
             "type": "python",
             "request": "launch",
             "module": "create_user",

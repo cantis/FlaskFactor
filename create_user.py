@@ -1,9 +1,9 @@
-# create a first user...
+# Create a first user.
+# This file is designed to be run by itself, it asks questions and then creates a user, it isn't really part of the application.
 # Based on: https://realpython.com/using-flask-login-for-user-management-with-flask/
+from app import create_app
 from app.models.user import User, db
 from app.users.users import hash_password
-
-from app import create_app
 
 app = create_app()
 
