@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
+from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, BooleanField
 from wtforms.fields.core import SelectField
@@ -33,6 +34,7 @@ class EditCharacterForm(FlaskForm):
 
 # Handlers
 @character_bp.route('/character', methods=['GET'])
+@login_required
 def show_character_list_form():
     """ Show list of current characters for user """
 
@@ -40,10 +42,11 @@ def show_character_list_form():
     user = User.query.filter_by(user_id=1).first()
 
     character_list = Character.query.all()
-    return render_template('character_list.html', characters=character_list, user=user)
+    return render_template('character_list.html', characters=character_list, user=current_user.firstname)
 
 
 @character_bp.route('/character/add', methods=['GET', 'POST'])
+@login_required
 def show_add_character_form():
     """ Show add character form and handle inserting new characters """
 
@@ -65,10 +68,11 @@ def show_add_character_form():
         return redirect(url_for('character_bp.show_character_list_form'))
 
     form.user_id.data = '1'
-    return render_template('character_add.html', form=form, user=user)
+    return render_template('character_add.html', form=form, user=current_user.firstname)
 
 
 @character_bp.route('/character/<id>', methods=['GET', 'POST'])
+@login_required
 def show_character_edit_form(id):
     """ Show Character edit form and handle character updates """
 
@@ -94,4 +98,4 @@ def show_character_edit_form(id):
     else:
         form.process(obj=edit_character)
         form.user_id.choices = user_list
-        return render_template('character_edit.html', form=form, character=edit_character, user=user)
+        return render_template('character_edit.html', form=form, character=edit_character, user=current_user.firstname)

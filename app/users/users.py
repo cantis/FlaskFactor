@@ -42,7 +42,7 @@ class LoginForm(FlaskForm):
 def show_user_list_form():
     """Show list of current users."""
     userList = User.query.all()
-    return render_template('user_list.html', users=userList)
+    return render_template('user_list.html', users=userList, user=current_user.firstname)
 
 
 @user_bp.route('/user/register', methods=['GET', 'POST'])
