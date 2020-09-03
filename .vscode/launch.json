@@ -5,8 +5,9 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
-            "name": "Factor Main",
+            "name": "Factor - Debug",
             "type": "python",
             "request": "launch",
             "module": "flask",

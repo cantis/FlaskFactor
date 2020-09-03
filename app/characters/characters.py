@@ -6,7 +6,7 @@ from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired
 
 from app.models.character import Character, db
-from app.models.user import User
+from app.models.player import Player
 
 
 # Blueprint Configuration
@@ -16,7 +16,7 @@ character_bp = Blueprint('character_bp', __name__, template_folder='templates', 
 # Form Definition
 class AddCharacterForm(FlaskForm):
     """ Character Add Form """
-    user_id = HiddenField()
+    player_id = SelectField(label='Player', coerce=int)
     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
     character_class = StringField(label='Character Class')
 
@@ -24,9 +24,8 @@ class AddCharacterForm(FlaskForm):
 class EditCharacterForm(FlaskForm):
     """ Character Edit Form """
     id = HiddenField()
-    # TODO: figure out how to remove the validate_choice field
-    user_id = SelectField(label='User Name', coerce=int, validate_choice=False)
-    character_name = StringField(label='Character Name')
+    player_id = SelectField(label='Player', coerce=int)
+    character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
     character_class = StringField(label='Character Class')
     is_active = BooleanField(label='Active')
     is_dead = BooleanField(label='Dead')
@@ -37,10 +36,6 @@ class EditCharacterForm(FlaskForm):
 @login_required
 def show_character_list_form():
     """ Show list of current characters for user """
-
-    # TODO: get current user from session
-    user = User.query.filter_by(user_id=1).first()
-
     character_list = Character.query.all()
     return render_template('character_list.html', characters=character_list, user=current_user.firstname)
 
@@ -50,13 +45,13 @@ def show_character_list_form():
 def show_add_character_form():
     """ Show add character form and handle inserting new characters """
 
-    # TODO: get current user from session
-    user = User.query.filter_by(id=1).first()
-
     form = AddCharacterForm()
+    player_list = Player.query.with_entities(Player.id, Player.firstname)
+    form.player_id.choices = player_list
+
     if form.validate_on_submit():
         new_character = Character(
-            user_id=int(form.user_id.data),
+            player_id=form.player_id.data,
             character_name=form.character_name.data,
             character_class=form.character_class.data,
             is_active=True,
@@ -67,7 +62,6 @@ def show_add_character_form():
         flash('Character Added', 'success')
         return redirect(url_for('character_bp.show_character_list_form'))
 
-    form.user_id.data = '1'
     return render_template('character_add.html', form=form, user=current_user.firstname)
 
 
@@ -78,17 +72,12 @@ def show_character_edit_form(id):
 
     # TODO: Deal with character or user not found
     edit_character = Character.query.filter_by(id=id).first()
-    user = User.query.filter_by(id=edit_character.user_id).first()
-
-    user_list = [(x.firstname) for x in User.query.all()]
-
-    user_list = User.query.with_entities(User.id, User.firstname).all()
 
     form = EditCharacterForm()
 
     if form.validate_on_submit():
         edit_character.id = int(form.id.data)
-        edit_character.user_id = form.user_id.data
+        edit_character.player_id = form.player_id.data
         edit_character.character_name = form.character_name.data
         edit_character.character_class = form.character_class.data
         edit_character.is_active = form.is_active.data
@@ -96,6 +85,7 @@ def show_character_edit_form(id):
         db.session.commit()
         return redirect(url_for('character_bp.show_character_list_form'))
     else:
+        player_list = Player.query.with_entities(Player.id, Player.firstname)
+        form.player_id.choices = player_list
         form.process(obj=edit_character)
-        form.user_id.choices = user_list
         return render_template('character_edit.html', form=form, character=edit_character, user=current_user.firstname)

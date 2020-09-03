@@ -11,7 +11,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>User</th>
+                        <th>Player</th>
                         <th>Character Name</th>
                         <th>Character Class</th>
                         <th>Active</th>
@@ -21,7 +21,7 @@
                 <tbody>
                     {% for character in characters %}
                     <tr>
-                        <td>{{ user.firstname}}</td>
+                        <td>{{ character.player.firstname}}</td>
                         <td>{{ character.character_name }}</td>
                         <td>{{ character.character_class }}</td>
                         <td>{{ character.is_active }}</td>

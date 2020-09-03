@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 
 from app.models import db
@@ -18,5 +18,5 @@ class Player(db.Model):
     id = Column(Integer, primary_key=True)
     firstname = Column(String(20))
     lastname = Column(String(20))
-    # charcters = relationship('Character')
-    # parties = relationship('Party')
+    is_active = Column(Boolean)
+    characters = relationship('Character', backref='player')

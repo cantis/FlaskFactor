@@ -13,6 +13,7 @@
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Is Active</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,6 +21,14 @@
                     <tr>
                         <td>{{player.firstname}}</td>
                         <td>{{player.lastname}}</td>
+                        <td>
+                            {% if player.is_active %}
+                                <span class="fas fa-check-square"></span>
+                            {% endif %}
+                            {% if player.is_active == false %}
+                                <span class="fas fa-minus-square"></span>
+                            {% endif %}
+                        </td>
                         <td>
                             <a href="player/{{player.id}}" class="link" title="Edit"><i class="fa fa-pen"></i></a>
                         </td>
