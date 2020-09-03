@@ -5,7 +5,6 @@ from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 
 from app.models.player import Player, db
-from app.models.user import User
 
 
 # Blueprint Configuration
@@ -33,7 +32,7 @@ class EditPlayerForm(FlaskForm):
 def show_player_list_form():
     """ Show list of players """
     player_list = Player.query.all()
-    return render_template('player_list.html', players=player_list, user=current_user.firstname)
+    return render_template('player/player_list.html', players=player_list, user=current_user.firstname)
 
 
 @player_bp.route('/player/add', methods=['GET', 'POST'])
@@ -52,7 +51,7 @@ def show_player_add_form():
         flash('Player Added', 'success')
         return redirect(url_for('player_bp.show_player_list_form'))
 
-    return render_template('player_add.html', form=form, user=current_user.firstname)
+    return render_template('player/player_add.html', form=form, user=current_user.firstname)
 
 
 @player_bp.route('/player/<id>', methods=['GET'])
@@ -63,7 +62,7 @@ def show_player_edit_form(id):
     edit_player = Player.query.filter_by(id=id).first()
     form = EditPlayerForm()
     form.process(obj=edit_player)
-    return render_template('player_edit.html', form=form, player=edit_player, user=current_user.firstname)
+    return render_template('player/player_edit.html', form=form, player=edit_player, user=current_user.firstname)
 
 
 @player_bp.route('/player/<id>', methods=['POST'])

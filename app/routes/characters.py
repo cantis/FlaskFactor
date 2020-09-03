@@ -37,7 +37,7 @@ class EditCharacterForm(FlaskForm):
 def show_character_list_form():
     """ Show list of current characters for user """
     character_list = Character.query.all()
-    return render_template('character_list.html', characters=character_list, user=current_user.firstname)
+    return render_template('character/character_list.html', characters=character_list, user=current_user.firstname)
 
 
 @character_bp.route('/character/add', methods=['GET', 'POST'])
@@ -62,7 +62,7 @@ def show_add_character_form():
         flash('Character Added', 'success')
         return redirect(url_for('character_bp.show_character_list_form'))
 
-    return render_template('character_add.html', form=form, user=current_user.firstname)
+    return render_template('character/character_add.html', form=form, user=current_user.firstname)
 
 
 @character_bp.route('/character/<id>', methods=['GET', 'POST'])
@@ -88,4 +88,4 @@ def show_character_edit_form(id):
         player_list = Player.query.with_entities(Player.id, Player.firstname)
         form.player_id.choices = player_list
         form.process(obj=edit_character)
-        return render_template('character_edit.html', form=form, character=edit_character, user=current_user.firstname)
+        return render_template('character/character_edit.html', form=form, character=edit_character, user=current_user.firstname)

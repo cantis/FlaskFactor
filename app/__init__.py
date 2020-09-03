@@ -31,10 +31,7 @@ def create_app():
     db.init_app(app)
 
     # Import parts of our application (add new 'components' here)
-    from .home import home
-    from .users import users
-    from .characters import characters
-    from .players import players
+    from .routes import home, users, characters, players
 
     # Register Blueprints
     app.register_blueprint(home.home_bp)

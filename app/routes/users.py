@@ -42,7 +42,7 @@ class LoginForm(FlaskForm):
 def show_user_list_form():
     """Show list of current users."""
     userList = User.query.all()
-    return render_template('user_list.html', users=userList, user=current_user.firstname)
+    return render_template('user/user_list.html', users=userList, user=current_user.firstname)
 
 
 @user_bp.route('/user/register', methods=['GET', 'POST'])
@@ -62,7 +62,7 @@ def show_user_register_form():
         return redirect(url_for('user_bp.show_user_list_form'))
 
     # if it's just a GET show the form
-    return render_template('user_add.html', form=form)
+    return render_template('user/user_add.html', form=form)
 
 
 @user_bp.route('/user/profile', methods=['GET', 'POST'])
@@ -83,7 +83,7 @@ def show_user_profile_form(email):
         return redirect(url_for('user_bp.show_user_list_form'))
     else:
         form.process(obj=edit_user)  # this provides the existing data to display on the form
-        return render_template('user_edit.html', form=form, user=edit_user)
+        return render_template('user/user_edit.html', form=form, user=edit_user)
 
 
 @user_bp.route('/user/delete/<email>', methods=['GET', 'POST'])
@@ -155,4 +155,4 @@ def logout():
     db.session.add(user)
     db.session.commit()
     logout_user()
-    return render_template('logout.html')
+    return render_template('user/logout.html')
