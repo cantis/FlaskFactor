@@ -22,9 +22,9 @@
                                 <td>{{ u.firstname }}</td>
                                 <td>{{ u.lastname }}</td>
                                 <td>
-                                    <a href="user/{{user.id}}" class="link" title="Edit"><i class="fa fa-pen"></i></a>
+                                    <a href="user/profile/{{u.user_id}}" class="link" title="Edit"><i class="fa fa-pen"></i></a>
                                     &nbsp;
-                                    <a href="user/delete/{{user.id}}" class="link" title="Delete"><i class="fa fa-eraser"></i></a>
+                                    <a href="user/delete/{{u.user_id}}" class="link" title="Delete"><i class="fa fa-eraser"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}

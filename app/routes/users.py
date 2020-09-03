@@ -15,7 +15,7 @@ user_bp = Blueprint('user_bp', __name__, template_folder='templates', static_fol
 # Form Definitions
 class UserAddForm(FlaskForm):
     """User Add Form"""
-    email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
+    user_id = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     firstname = StringField(label='First Name', validators=[InputRequired(message='A first name is required'), Length(min=1, max=20)])
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
     password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=20)])
@@ -23,7 +23,7 @@ class UserAddForm(FlaskForm):
 
 class UserProfileForm(FlaskForm):
     """User Profile Form"""
-    email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
+    user_id = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     firstname = StringField(label='First Name', validators=[InputRequired(message='A first name is required'), Length(min=1, max=20)])
     lastname = StringField(label='Last Name', validators=[InputRequired('A last name is required'), Length(min=1, max=20)])
     password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=20)])
@@ -31,7 +31,7 @@ class UserProfileForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     """Login Form"""
-    email = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
+    user_id = StringField(label='Email', validators=[InputRequired('An email is required'), Email('Not an email format.')])
     password = PasswordField(label='Password', validators=[InputRequired('Please enter a password'), Length(min=5, max=20)])
     remember_me = BooleanField(label='Remember me')
 
@@ -45,17 +45,17 @@ def show_user_list_form():
     return render_template('user/user_list.html', users=userList, user=current_user.firstname)
 
 
-@user_bp.route('/user/register', methods=['GET', 'POST'])
+@user_bp.route('/user/add', methods=['GET', 'POST'])
 def show_user_register_form():
     """Show user add form and handle inserting new users."""
     form = UserAddForm()
     # check and see if it's a POST, i.e. it's a form submit
     if form.validate_on_submit():
-        email = form.email.data
+        user_id = form.user_id.data
         password = form.password.data
         firstname = form.firstname.data
         lastname = form.lastname.data
-        new_user = User(email=email, password=password, firstname=firstname, lastname=lastname)
+        new_user = User(user_id=user_id, password=password, firstname=firstname, lastname=lastname)
         db.session.add(new_user)
         db.session.commit()
         flash('User Added', 'success')
@@ -65,17 +65,17 @@ def show_user_register_form():
     return render_template('user/user_add.html', form=form)
 
 
-@user_bp.route('/user/profile', methods=['GET', 'POST'])
+@user_bp.route('/user/profile/<user_id>', methods=['GET', 'POST'])
 @login_required
-def show_user_profile_form(email):
+def show_user_profile_form(user_id):
     """Show user edit form and handle user updates."""
 
-    edit_user = User.query.filter_by(email=email).first()
+    edit_user = User.query.filter_by(user_id=user_id).first()
     # TODO: deal with not getting a user back from the query
 
     form = UserProfileForm()
     if form.validate_on_submit():
-        edit_user.email = form.email.data
+        edit_user.user_id = form.email.data
         edit_user.password = form.password.data
         edit_user.firstname = form.firstname.data
         edit_user.lastname = form.lastname.data
@@ -83,18 +83,34 @@ def show_user_profile_form(email):
         return redirect(url_for('user_bp.show_user_list_form'))
     else:
         form.process(obj=edit_user)  # this provides the existing data to display on the form
-        return render_template('user/user_edit.html', form=form, user=edit_user)
+        return render_template('user/user_edit.html', form=form, user=current_user.firstname)
 
 
-@user_bp.route('/user/delete/<email>', methods=['GET', 'POST'])
+@user_bp.route('/user/delete/<user_id>', methods=['GET'])
 @login_required
-def delete_user(email):
-    """Delete a user"""
-    delete_user = User.query.get(email=email)
+def delete_confirm(user_id):
+    """ Show Delete Confirmation Dialog """
+    delete_user = User.query.get(user_id)
     if delete_user is not None:
-        User.query.get(email=email).delete()
-        db.session.commit()
-        flash('User Deleted', 'success')
+        return render_template('user/user_delete.html', delete_user=delete_user, user=current_user.firstname)
+    else:
+        return redirect(url_for('user_bp.show_user_list_form'))
+
+
+@user_bp.route('/user/delete/<user_id>', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    """Delete a user"""
+    delete_user = User.query.get(user_id)
+
+    if delete_user is not None:
+        # Make sure we're not deleting ourselves
+        if delete_user.user_id == current_user.user_id:
+            flash('You cannot delete yourself!', 'warning')
+        else:
+            User.query.filter_by(user_id=user_id).delete()
+            db.session.commit()
+            flash('User Deleted', 'success')
     else:
         flash('User not found. No Action.', 'warning')
     return redirect(url_for('user_bp.show_user_list_form'))
@@ -131,7 +147,7 @@ def login():
             return redirect(url_for('user_bp.login'))
 
     # GET request, show the login form
-    return render_template('login.html', form=form)
+    return render_template('user/login.html', form=form)
 
 
 def is_password_valid(hashed_password, input_password):
