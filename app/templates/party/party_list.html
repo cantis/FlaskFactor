@@ -1,0 +1,35 @@
+{% extends "layout/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div class="container">
+    <div class="row col-md-offset-3 col-md-6">
+        <h1>Parties</h1>
+    </div>
+    <br>
+    <div class="row col-md-offset-3 col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Party Name</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for party in parties %}
+                <tr>
+                    <td>{{ party.party_name }}</td>
+                    <td>{{ party.is_active }}</td>
+                    <td>
+                        <a href="party/{{party.id}}" class="link" title="Edit"><i class="fa fa-pen"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row col-md-offset-3 col-md-6">
+        <a href="party/add" class="link">Add Party</a>
+    </div>
+</div>
+{% endblock content %}

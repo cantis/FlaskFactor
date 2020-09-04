@@ -31,13 +31,14 @@ def create_app():
     db.init_app(app)
 
     # Import parts of our application (add new 'components' here)
-    from .routes import home, users, characters, players
+    from .routes import home, users, characters, players, parties
 
     # Register Blueprints
-    app.register_blueprint(home.home_bp)
+    app.register_blueprint(parties.party_bp)
+    app.register_blueprint(players.player_bp)
     app.register_blueprint(users.user_bp)
     app.register_blueprint(characters.character_bp)
-    app.register_blueprint(players.player_bp)
+    app.register_blueprint(home.home_bp)
 
     with app.app_context():
         db.create_all()

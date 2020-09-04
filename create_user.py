@@ -3,7 +3,7 @@
 # Based on: https://realpython.com/using-flask-login-for-user-management-with-flask/
 from app import create_app
 from app.models.user import User, db
-from app.users.users import hash_password
+from app.routes.users import hash_password
 
 app = create_app()
 

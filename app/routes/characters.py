@@ -7,6 +7,7 @@ from wtforms.validators import InputRequired
 
 from app.models.character import Character, db
 from app.models.player import Player
+from app.models.party import Party
 
 
 # Blueprint Configuration
@@ -19,6 +20,7 @@ class AddCharacterForm(FlaskForm):
     player_id = SelectField(label='Player', coerce=int)
     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
     character_class = StringField(label='Character Class')
+    party_id = SelectField(label='Party', coerce=int)
 
 
 class EditCharacterForm(FlaskForm):
@@ -29,6 +31,7 @@ class EditCharacterForm(FlaskForm):
     character_class = StringField(label='Character Class')
     is_active = BooleanField(label='Active')
     is_dead = BooleanField(label='Dead')
+    party_id = SelectField(label='Party', coerce=int)
 
 
 # Handlers
@@ -48,6 +51,8 @@ def show_add_character_form():
     form = AddCharacterForm()
     player_list = Player.query.with_entities(Player.id, Player.firstname)
     form.player_id.choices = player_list
+    party_list = Party.query.with_entities(Party.id, Party.party_name)
+    form.party_id.choices = party_list
 
     if form.validate_on_submit():
         new_character = Character(
@@ -55,7 +60,8 @@ def show_add_character_form():
             character_name=form.character_name.data,
             character_class=form.character_class.data,
             is_active=True,
-            is_dead=False
+            is_dead=False,
+            party_id=form.party_id.data
         )
         db.session.add(new_character)
         db.session.commit()
@@ -82,10 +88,13 @@ def show_character_edit_form(id):
         edit_character.character_class = form.character_class.data
         edit_character.is_active = form.is_active.data
         edit_character.is_dead = form.is_dead.data
+        edit_character.party_id = form.party_id.data
         db.session.commit()
         return redirect(url_for('character_bp.show_character_list_form'))
     else:
         player_list = Player.query.with_entities(Player.id, Player.firstname)
         form.player_id.choices = player_list
+        party_list = Party.query.with_entities(Party.id, Party.party_name)
+        form.party_id.choices = party_list
         form.process(obj=edit_character)
         return render_template('character/character_edit.html', form=form, character=edit_character, user=current_user.firstname)

@@ -20,3 +20,4 @@ class Character(db.Model):
     is_active = Column(Boolean, default=True)
     is_dead = Column(Boolean, default=False)
     player_id = Column(Integer, ForeignKey('players.id'))
+    party_id = Column(Integer, ForeignKey('parties.id'))
