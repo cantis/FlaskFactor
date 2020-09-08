@@ -6,6 +6,7 @@
     "configurations": [
 
 
+
         {
             "name": "Factor - Debug",
             "type": "python",
@@ -25,6 +26,20 @@
             "type": "python",
             "request": "launch",
             "module": "create_user",
+            "env": {
+                // General
+                "FLASK_DEBUG": "1",
+            },
+            "args": [
+                "run"
+            ],
+            "jinja": true
+        },
+        {
+            "name": "Initialize",
+            "type": "python",
+            "request": "launch",
+            "module": "init_data",
             "env": {
                 // General
                 "FLASK_DEBUG": "1",

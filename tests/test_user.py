@@ -1,7 +1,7 @@
 import unittest
 from werkzeug.security import check_password_hash
 
-from app.users.users import hash_password
+from app.routes.users import hash_password
 
 
 class TestUserMethods(unittest.TestCase):

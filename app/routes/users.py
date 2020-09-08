@@ -131,12 +131,14 @@ def login():
         # POST Request
 
         # get the existing user
-        user = User.query.get(form.email.data)
+        user = User.query.get(form.user_id.data)
 
         # Check if user found and check if the supplied password is ok
         if user is None or not is_password_valid(user.password, form.password.data):
             flash('Invalid username or password.')
-            return redirect(url_for('user_bp.login'))
+            form.process(obj=form.user_id.data)
+            return render_template('user/login.html', form=form)
+            # return redirect(url_for('user_bp.login'))
 
         # Valid login, go ahead and try and log in
         if login_user(user, remember=form.remember_me.data):

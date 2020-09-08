@@ -8,7 +8,7 @@ from app.routes.users import hash_password
 app = create_app()
 
 
-def main():
+def create_user():
     with app.app_context():
         if User.query.all():
             if input('A user already exists! Create another? (y/n): ') == 'n':
@@ -31,4 +31,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    create_user()

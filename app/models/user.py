@@ -6,12 +6,7 @@ from app.models import db
 
 
 class User(db.Model, UserMixin):
-    """ Data model for user accounts.
-    :param str user_id: email address of user
-    :param str password: user's password hash
-    :param str firstname: user's first name
-    :param str lastname: users's last name
-    """
+    """ Data model for user accounts. """
     __tablename__ = 'users'
     user_id = Column(Unicode(35), primary_key=True)
     password = Column(String(32), index=False)
