@@ -13,15 +13,23 @@
                 <tr>
                     <th>Party Name</th>
                     <th>Active</th>
+                    <th>Edit</th>                    
                 </tr>
             </thead>
             <tbody>
                 {% for party in parties %}
                 <tr>
                     <td>{{ party.party_name }}</td>
-                    <td>{{ party.is_active }}</td>
                     <td>
-                        <a href="party/{{party.id}}" class="link" title="Edit"><i class="fa fa-pen"></i></a>
+                        {% if party.is_active %}
+                            <i class="glyphicon glyphicon-ok"></i>
+                        {% endif %}
+                        {% if party.is_active == false %}
+                            <i class="glyphicon glyphicon-unchecked"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="party/{{party.id}}" class="link" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
                     </td>
                 </tr>
                 {% endfor %}

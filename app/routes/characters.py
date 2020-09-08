@@ -49,9 +49,19 @@ def show_add_character_form():
     """ Show add character form and handle inserting new characters """
 
     form = AddCharacterForm()
+
+    # Check that we have at least one player.
     player_list = Player.query.with_entities(Player.id, Player.firstname)
+    if player_list.count() == 0:
+        flash('Characters require at least one Player.', 'warning')
+        return redirect(url_for('player_bp.show_player_list_form'))
     form.player_id.choices = player_list
+
+    # Check that we have at lease one party.
     party_list = Party.query.with_entities(Party.id, Party.party_name)
+    if party_list.count() == 0:
+        flash('Characters require at least one Party.', 'warning')
+        return redirect(url_for('party_bp.show_party_list_form'))
     form.party_id.choices = party_list
 
     if form.validate_on_submit():

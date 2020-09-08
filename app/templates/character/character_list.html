@@ -17,6 +17,7 @@
                         <th>Party</th>
                         <th>Active</th>
                         <th>Dead</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,10 +27,21 @@
                         <td>{{ character.character_name }}</td>
                         <td>{{ character.character_class }}</td>
                         <td>{{ character.party.party_name}}</td>
-                        <td>{{ character.is_active }}</td>
-                        <td>{{ character.is_dead }}</td>
                         <td>
-                            <a href="character/{{ character.id}}" class="link" title="Edit"><i class="fa fa-pen"></i></a>
+                            {% if character.is_active %}
+                                <i class="glyphicon glyphicon-ok"></i>
+                            {% endif %}
+                            {% if character.is_active == false %}
+                                <i class="glyphicon glyphicon-unchecked"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if character.is_dead %}
+                                <i class="glyphicon glyphicon-remove"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="character/{{ character.id}}" class="link" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
