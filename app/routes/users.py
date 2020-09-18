@@ -46,7 +46,7 @@ def show_user_list_form():
 
 
 @user_bp.route('/user/add', methods=['GET', 'POST'])
-def show_user_register_form():
+def show_user_add_form():
     """Show user add form and handle inserting new users."""
     form = UserAddForm()
     # check and see if it's a POST, i.e. it's a form submit
@@ -152,18 +152,6 @@ def login():
     return render_template('user/login.html', form=form)
 
 
-def is_password_valid(hashed_password, input_password):
-    """ check that the supplied password is correct """
-    result = check_password_hash(hashed_password, input_password)
-    return result
-
-
-def hash_password(cleartext_password):
-    """ hash a password """
-    hashed_password = generate_password_hash(cleartext_password)
-    return hashed_password
-
-
 @user_bp.route('/logout', methods=['GET'])
 @login_required
 def logout():
@@ -174,3 +162,15 @@ def logout():
     db.session.commit()
     logout_user()
     return render_template('user/logout.html')
+
+
+def is_password_valid(hashed_password, input_password):
+    """ check that the supplied password is correct """
+    result = check_password_hash(hashed_password, input_password)
+    return result
+
+
+def hash_password(cleartext_password):
+    """ hash a password """
+    hashed_password = generate_password_hash(cleartext_password)
+    return hashed_password
