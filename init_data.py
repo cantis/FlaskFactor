@@ -1,20 +1,16 @@
 from app import create_app
 from app.models.item_type import Item_Type, db
 
-import create_user
+app = None
 
 
-app = create_app()
-
-
-def initialize():
+def init_db():
+    """ create the database and load in any base lookup values """
+    # Note: the admin user creation script is in create_user.py
 
     # Create the Database
     with app.app_context():
         db.create_all()
-
-        # create the admin user
-        create_user.create_user()
 
         # Load lookup values
         db.session.add(Item_Type(item_type='Ammunition'))
@@ -32,4 +28,5 @@ def initialize():
 
 
 if __name__ == '__main__':
-    initialize()
+    app = create_app()
+    init_db()

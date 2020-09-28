@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, current_app, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -138,7 +138,6 @@ def login():
             flash('Invalid username or password.')
             form.process(obj=form.user_id.data)
             return render_template('user/login.html', form=form)
-            # return redirect(url_for('user_bp.login'))
 
         # Valid login, go ahead and try and log in
         if login_user(user, remember=form.remember_me.data):
@@ -149,6 +148,7 @@ def login():
             return redirect(url_for('user_bp.login'))
 
     # GET request, show the login form
+    print(current_app.instance_path)
     return render_template('user/login.html', form=form)
 
 

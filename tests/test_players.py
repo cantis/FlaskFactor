@@ -1,37 +1,35 @@
 import unittest
 
-from app import create_app
+from flask.globals import request
+from tests.test_base import TestBase
+from app.models import db
+from app.models.player import Player
 
 
 class TestPlayerMethods(unittest.TestCase):
 
     def setUp(self):
-        app = create_app()
-        app.config['TESTING']
-        self.app = app.test_client()
+        self.app = TestBase.create_test_app()
+        self.client = self.app.test_client()
+        self.context = self.app.test_request_context()
+        self.context.push()
 
-    # def login(self, user_id, password):
-    #     return self.app.post(
-    #         '/login',
-    #         data=dict(user_id=user_id, password=password),
-    #         follow_redirects=True
-    #     )
+        player = Player(
+            firstname='Evan',
+            lastname='Young',
+            is_active='True',
+            )
+        db.session.add(self.player)
+        db.session.commit
 
-    def test_get_player_list_login_redirect(self):
-        # arrange
-
-        # act
-        response = self.app.get('http://localhost:5000/player')
-
-        # assert
-        self.assertEqual(response.status_code, 302)
+    def tearDown(self):
+        pass
 
     def test_get_player_list(self):
         # arrange
-        self.login(user_id='cantis@gmail.com', password='password')
 
         # act
-        response = self.app.get('http://localhost:5000/player')
+        response = self.client.get('http://localhost:5000/player')
 
         # assert
         self.assertEqual(response.status_code, 200)

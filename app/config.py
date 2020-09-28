@@ -11,7 +11,7 @@ class BaseConfig(object):
     SECRET_KEY = environ.get('SECRET_KEY')
 
     STATIC_FOLDER = 'static'
-    TEMPLATES_FOLDER = 'templates'
+    TEMPLATE_FOLDER = 'templates'
 
     FLASK_DEBUG = False
     TESTING = False
@@ -46,3 +46,5 @@ class TestConfig(BaseConfig):
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    WTF_CSRF_ENABLED = False
+    LOGIN_DISABLED = True

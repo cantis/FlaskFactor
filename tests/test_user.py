@@ -2,7 +2,7 @@ import unittest
 from werkzeug.security import check_password_hash
 
 from app import create_app
-from app.routes.users import hash_password, LoginForm
+from app.routes.users import hash_password
 from app.models.user import User
 
 
