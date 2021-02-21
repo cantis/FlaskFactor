@@ -1,13 +1,12 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
-from flask_login import current_user, login_required
+# from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, BooleanField
 from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired
 
-from app.models.character import Character, db
-from app.models.player import Player
-from app.models.party import Party
+from web import db
+from web.models import Character, Player, Party
 
 
 # Blueprint Configuration
@@ -36,7 +35,7 @@ class EditCharacterForm(FlaskForm):
 
 # Handlers
 @character_bp.route('/character', methods=['GET'])
-@login_required
+# @login_required
 def show_character_list_form():
     """ Show list of current characters for user """
     character_list = Character.query.all()
@@ -44,7 +43,7 @@ def show_character_list_form():
 
 
 @character_bp.route('/character/add', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def show_add_character_form():
     """ Show add character form and handle inserting new characters """
 
@@ -82,7 +81,7 @@ def show_add_character_form():
 
 
 @character_bp.route('/character/<id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def show_character_edit_form(id):
     """ Show Character edit form and handle character updates """
 

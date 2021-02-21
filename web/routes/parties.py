@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
-from flask_login import current_user, login_required
+# from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, BooleanField, validators
 from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired
 
-from app.models.party import Party, db
-from app.models.character import Character
+from web import db
+from web.models import Party, Character
 
 
 # Blueprint Configuration
@@ -28,7 +28,7 @@ class EditPartyForm(FlaskForm):
 
 # Handlers
 @party_bp.route('/party', methods=['GET'])
-@login_required
+# @login_required
 def show_party_list_form():
     """ Show list of Adventuring Parties """
     party_list = Party.query.all()
@@ -36,7 +36,7 @@ def show_party_list_form():
 
 
 @party_bp.route('/party/add', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def show_party_add_form():
     """ Show add party form and handle inserting new party """
     form = AddPartyForm()
@@ -54,7 +54,7 @@ def show_party_add_form():
 
 
 @party_bp.route('/party/<id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def show_party_edit_form(id):
     """ Show party edit form and handle updates """
     form = EditPartyForm()

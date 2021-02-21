@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
-from flask_login import current_user, login_required
+# from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 
-from app.models.player import Player, db
+from web import db
+from web.models import Player
 
 
 # Blueprint Configuration
@@ -28,7 +29,7 @@ class EditPlayerForm(FlaskForm):
 
 # Handlers
 @player_bp.route('/player', methods=['GET'])
-@login_required
+# @login_required
 def show_player_list_form():
     """ Show list of players """
     player_list = Player.query.all()
@@ -36,7 +37,7 @@ def show_player_list_form():
 
 
 @player_bp.route('/player/add', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def show_player_add_form():
     """ Show player add form and handle add """
     form = AddPlayerForm()
@@ -55,7 +56,7 @@ def show_player_add_form():
 
 
 @player_bp.route('/player/<id>', methods=['GET'])
-@login_required
+# @login_required
 def show_player_edit_form(id):
     """ Show Player edit form"""
     # TODO: Handle player not found
@@ -66,7 +67,7 @@ def show_player_edit_form(id):
 
 
 @player_bp.route('/player/<id>', methods=['POST'])
-@login_required
+# @login_required
 def handle_player_edit_form(id):
     """ Handle updates on the player edit form"""
 

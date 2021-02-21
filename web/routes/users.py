@@ -1,12 +1,12 @@
 from flask import Blueprint, current_app, render_template, redirect, url_for, flash
-from flask_login import login_user, logout_user, current_user, login_required
+# from flask_login import login_user, logout_user, current_user, login_required
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import StringField, PasswordField
 from wtforms.fields.core import BooleanField
 from wtforms.validators import InputRequired, Email, Length
 
-from app.models.user import User, db
+from web.models import User, db
 
 # Blueprint Configuration
 user_bp = Blueprint('user_bp', __name__, template_folder='templates', static_folder='static')
@@ -38,7 +38,7 @@ class LoginForm(FlaskForm):
 
 # Handlers
 @user_bp.route('/user', methods=['GET'])
-@login_required
+# @login_required
 def show_user_list_form():
     """Show list of current users."""
     userList = User.query.all()
@@ -66,7 +66,7 @@ def show_user_add_form():
 
 
 @user_bp.route('/user/profile/<user_id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def show_user_profile_form(user_id):
     """Show user edit form and handle user updates."""
 
@@ -87,7 +87,7 @@ def show_user_profile_form(user_id):
 
 
 @user_bp.route('/user/delete/<user_id>', methods=['GET'])
-@login_required
+# @login_required
 def delete_confirm(user_id):
     """ Show Delete Confirmation Dialog """
     delete_user = User.query.get(user_id)
@@ -98,7 +98,7 @@ def delete_confirm(user_id):
 
 
 @user_bp.route('/user/delete/<user_id>', methods=['POST'])
-@login_required
+# @login_required
 def delete_user(user_id):
     """Delete a user"""
     delete_user = User.query.get(user_id)
@@ -116,58 +116,58 @@ def delete_user(user_id):
     return redirect(url_for('user_bp.show_user_list_form'))
 
 
-@user_bp.route('/login', methods=['GET', 'POST'])
-def login():
-    """ For GET requests, display the login form.
-    for POST, process the form.
-    """
-    form = LoginForm()
+# @user_bp.route('/login', methods=['GET', 'POST'])
+# def login():
+#     """ For GET requests, display the login form.
+#     for POST, process the form.
+#     """
+#     form = LoginForm()
 
-    # handle if user is already logged in and they hit the login url send them home
-    if current_user.is_authenticated:
-        return redirect(url_for('home_bp.index'))
+#     # handle if user is already logged in and they hit the login url send them home
+#     if current_user.is_authenticated:
+#         return redirect(url_for('home_bp.index'))
 
-    if form.validate_on_submit():
-        # POST Request
+#     if form.validate_on_submit():
+#         # POST Request
 
-        # get the existing user
-        user = User.query.get(form.user_id.data)
+#         # get the existing user
+#         user = User.query.get(form.user_id.data)
 
-        # Check if user found and check if the supplied password is ok
-        if user is None or not is_password_valid(user.password, form.password.data):
-            flash('Invalid username or password.')
-            form.process(obj=form.user_id.data)
-            return render_template('user/login.html', form=form)
+#         # Check if user found and check if the supplied password is ok
+#         if user is None or not is_password_valid(user.password, form.password.data):
+#             flash('Invalid username or password.')
+#             form.process(obj=form.user_id.data)
+#             return render_template('user/login.html', form=form)
 
-        # Valid login, go ahead and try and log in
-        if login_user(user, remember=form.remember_me.data):
-            flash(f'{user.firstname} logged in', 'success')
-            return redirect(url_for('home_bp.index'))
-        else:
-            flash('Login not successfull', 'warning')
-            return redirect(url_for('user_bp.login'))
+#         # Valid login, go ahead and try and log in
+#         if login_user(user, remember=form.remember_me.data):
+#             flash(f'{user.firstname} logged in', 'success')
+#             return redirect(url_for('home_bp.index'))
+#         else:
+#             flash('Login not successfull', 'warning')
+#             return redirect(url_for('user_bp.login'))
 
-    # GET request, show the login form
-    print(current_app.instance_path)
-    return render_template('user/login.html', form=form)
-
-
-@user_bp.route('/logout', methods=['GET'])
-@login_required
-def logout():
-    """Logout Current User."""
-    user = current_user
-    user.authenticated = False
-    db.session.add(user)
-    db.session.commit()
-    logout_user()
-    return render_template('user/logout.html')
+#     # GET request, show the login form
+#     print(current_app.instance_path)
+#     return render_template('user/login.html', form=form)
 
 
-def is_password_valid(hashed_password, input_password):
-    """ check that the supplied password is correct """
-    result = check_password_hash(hashed_password, input_password)
-    return result
+# @user_bp.route('/logout', methods=['GET'])
+# @login_required
+# def logout():
+#     """Logout Current User."""
+#     user = current_user
+#     user.authenticated = False
+#     db.session.add(user)
+#     db.session.commit()
+#     logout_user()
+#     return render_template('user/logout.html')
+
+
+# def is_password_valid(hashed_password, input_password):
+#     """ check that the supplied password is correct """
+#     result = check_password_hash(hashed_password, input_password)
+#     return result
 
 
 def hash_password(cleartext_password):
