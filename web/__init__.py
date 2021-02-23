@@ -3,8 +3,8 @@ from flask_bootstrap import Bootstrap
 from flask_fontawesome import FontAwesome
 from flask_sqlalchemy import SQLAlchemy
 # from flask_toastr import Toastr
-# from flask_login import LoginManager
-# from flask_migrate import Migrate
+from flask_login import LoginManager
+from flask_migrate import Migrate
 
 
 from config import DevConfig
@@ -13,9 +13,9 @@ from config import DevConfig
 db = SQLAlchemy()
 bs = Bootstrap()
 fa = FontAwesome()
-# migrate = Migrate()
+migrate = Migrate()
 # toastr = Toastr()
-# login_manager = LoginManager()
+login_manager = LoginManager()
 
 
 def create_app():
@@ -25,10 +25,10 @@ def create_app():
     # Load in configuration
     app.config.from_object(DevConfig())
 
-    # Set up global objects
+    # initalize global objects
     db.init_app(app)
     bs.init_app(app)
-    # migrate.init_app(app)
+    migrate.init_app(app, db)
     fa.init_app(app)
     # toastr.init_app(app)
 
@@ -39,10 +39,11 @@ def create_app():
     # login_manager.login_message_category = 'info'
 
     # Import parts of our application (add new 'components' here)
-    from web.routes import home, users, characters, players, parties
+    from web.routes import home, users, characters, players, parties, auth
 
     # Register Blueprints
     app.register_blueprint(home.home_bp)
+    app.register_blueprint(auth.auth_bp)
     # app.register_blueprint(parties.party_bp)
     # app.register_blueprint(players.player_bp)
     # app.register_blueprint(users.user_bp)

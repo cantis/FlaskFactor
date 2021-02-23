@@ -11,5 +11,6 @@
         "./tests",
         "-p",
         "test_*.py"
-    ]
+    ],
+    "python.pythonPath": "env\\Scripts\\python.exe"
 }

@@ -1,11 +1,10 @@
-# from flask_login import UserMixin
+from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Unicode
 from sqlalchemy.orm import relationship
 
-# from web import db, login_manager
-from web import db
+from web import db, login_manager
 
 
 class Character(db.Model):
@@ -58,18 +57,19 @@ class Player(db.Model):
     characters = relationship('Character', backref='player')
 
 
-class User(db.Model,):
+class User(db.Model, UserMixin):
     """ Data model for user accounts. """
     __tablename__ = 'users'
-    user_id = Column(Unicode(35), primary_key=True)
-    password = Column(String(32), index=False)
-    firstname = Column(String(20))
-    lastname = Column(String(20))
+    id = Column(Unicode(35), primary_key=True)
+    firstname = Column(db.String(40))
+    lastname = Column(db.String(40))
+    email = Column(db.String(100), nullable=False)
+    password = Column(String(20), index=False)
     extend_existing = True
 
-    # @login_manager.user_loader
-    # def load_user(id):
-    #     return User.query.get(id)
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(id)
 
 
 def init_db():

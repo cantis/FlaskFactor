@@ -6,9 +6,9 @@ load_dotenv(path.join(basedir, '.env'))
 
 
 class BaseConfig(object):
-    """ SET Flask config variables. """
     FLASK_APP = 'wsgi.py'
-    SECRET_KEY = environ.get('SECRET_KEY')
+    # SECRET_KEY = environ.get('SECRET_KEY')
+    SECRET_KEY = 'super_secret_key'
 
     STATIC_FOLDER = 'static'
     TEMPLATE_FOLDER = 'templates'
@@ -25,7 +25,8 @@ class BaseConfig(object):
 class ProdConfig(BaseConfig):
     ENV = 'production'
     FLASK_ENV = 'production'
-    SQLALCHEMY_DATABASE_URI = environ.get('PROD_DATABASE_URI')
+    # SQLALCHEMY_DATABASE_URI = environ.get('DEV_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../data/factor.sqlite'
 
 
 class DevConfig(BaseConfig):
@@ -35,7 +36,8 @@ class DevConfig(BaseConfig):
     FLASK_DEBUG = True
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = environ.get('DEV_DATABASE_URI')
+    # SQLALCHEMY_DATABASE_URI = environ.get('DEV_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../data/factor.sqlite'
 
 
 class TestConfig(BaseConfig):
