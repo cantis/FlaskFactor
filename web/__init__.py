@@ -33,8 +33,8 @@ def create_app():
     # toastr.init_app(app)
 
     # Login Configuration
-    # login_manager.init_app(app)
-    # login_manager.login_view = 'auth_bp.login'
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth_bp.login'
     # login_manager.login_message = 'Please log in...'
     # login_manager.login_message_category = 'info'
 

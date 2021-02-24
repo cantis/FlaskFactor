@@ -1,8 +1,7 @@
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean
-from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Unicode
+from sqlalchemy import ForeignKey, Column, Integer, String, Boolean, Float
 from sqlalchemy.orm import relationship
+
 
 from web import db, login_manager
 
@@ -51,8 +50,8 @@ class Player(db.Model):
     """ Data model for a player """
     __tablename__ = 'players'
     id = Column(Integer, primary_key=True)
-    firstname = Column(String(20))
-    lastname = Column(String(20))
+    first_name = Column(String(20))
+    last_name = Column(String(20))
     is_active = Column(Boolean)
     characters = relationship('Character', backref='player')
 
@@ -60,10 +59,10 @@ class Player(db.Model):
 class User(db.Model, UserMixin):
     """ Data model for user accounts. """
     __tablename__ = 'users'
-    id = Column(Unicode(35), primary_key=True)
-    firstname = Column(db.String(40))
-    lastname = Column(db.String(40))
-    email = Column(db.String(100), nullable=False)
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String(40))
+    last_name = Column(String(40))
+    email = Column(String(100), nullable=False)
     password = Column(String(20), index=False)
     extend_existing = True
 

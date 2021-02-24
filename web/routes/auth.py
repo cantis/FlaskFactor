@@ -17,7 +17,7 @@ auth_bp = Blueprint('auth_bp', __name__, template_folder='templates')
 @auth_bp.route('/login', methods=['GET'])
 def login():
     form = LoginForm()
-    return render_template('login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @auth_bp.route('/login', methods=['POST'])
@@ -34,7 +34,7 @@ def login_post():
             return redirect(url_for('auth_bp.login'))
         else:
             login_user(user, remember=remember_me)
-            return redirect(url_for('entry_bp.index'))
+            return redirect(url_for('home_bp.index'))
 
     return redirect(url_for('auth_bp.login'))
 
@@ -42,7 +42,7 @@ def login_post():
 @auth_bp.route('/signup', methods=['GET'])
 def signup():
     form = SignupForm()
-    return render_template('signup.html', form=form)
+    return render_template('auth/signup.html', form=form)
 
 
 @auth_bp.route('/signup', methods=['POST'])
