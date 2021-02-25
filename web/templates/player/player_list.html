@@ -1,0 +1,45 @@
+{% extends "layout/base.html"%}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+    <div class="container">
+        <div class="row col-md-offset-3 col-md-6">
+            <h1 id='page_header'>Players</h1>
+        </div>        
+        <br>
+        <div class="row col-md-offset-3 col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Is Active</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in player_list %}
+                    <tr>
+                        <td>{{player.firstname}}</td>
+                        <td>{{player.lastname}}</td>
+                        <td>
+                            {% if player.is_active %}
+                                <i class="glyphicon glyphicon-ok"></i>
+                            {% endif %}
+                            {% if player.is_active == false %}
+                                <i class="glyphicon glyphicon-unchecked"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="player/{{player.id}}" class="link" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row col-md-offset-3 col-md-6">
+            <a href="player/add" class="link">Add Player</a>
+        </div>
+    </div>
+{% endblock content %}
