@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
-# from flask_login import current_user, login_required
+from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, BooleanField, validators
 from wtforms.fields.core import SelectField

@@ -50,9 +50,10 @@ class Player(db.Model):
     """ Data model for a player """
     __tablename__ = 'players'
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(20))
-    last_name = Column(String(20))
+    first_name = Column(String(40))
+    last_name = Column(String(40))
     is_active = Column(Boolean)
+    email = Column(String(100))
     characters = relationship('Character', backref='player')
 
 

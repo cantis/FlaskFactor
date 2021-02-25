@@ -44,10 +44,9 @@ def create_app():
     # Register Blueprints
     app.register_blueprint(home.home_bp)
     app.register_blueprint(auth.auth_bp)
-    # app.register_blueprint(parties.party_bp)
-    # app.register_blueprint(players.player_bp)
-    # app.register_blueprint(users.user_bp)
+    app.register_blueprint(players.player_bp)
     # app.register_blueprint(characters.character_bp)
+    # app.register_blueprint(parties.party_bp)
 
     # after we're all done, return the application object. It becomes available via flask as app.
     return app

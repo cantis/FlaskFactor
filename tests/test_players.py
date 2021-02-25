@@ -1,35 +1,43 @@
-# import pytest
+import pytest
+from flask.globals import request
 
-# from flask.globals import request
-# from tests.test_base import TestBase
-# from app.models import db
-# from app.models.player import Player
+from config import TestConfig
+from web import create_app, db
+from web.models import Player
 
 
-# class TestPlayerMethods(unittest.TestCase):
+@pytest.fixture(scope='session')
+def app():
+    app = create_app()
+    config = TestConfig()
+    app.config.from_object(config)
+    return app
 
-#     def setUp(self):
-#         self.app = TestBase.create_test_app()
-#         self.client = self.app.test_client()
-#         self.context = self.app.test_request_context()
-#         self.context.push()
 
-#         player = Player(
-#             firstname='Evan',
-#             lastname='Young',
-#             is_active='True',
-#             )
-#         db.session.add(self.player)
-#         db.session.commit
+@pytest.fixture(scope='function')
+def client(app):
+    with app.app_context():
+        client = app.test_client()
+        db.create_all()
+        db.session.add(Player(
+            first_name='Payton',
+            last_name='Young',
+            email='someone@noplace.com',
+            is_active=True)
+        )
+        db.session.commit
 
-#     def tearDown(self):
-#         pass
+        yield client
+        db.drop_all()
 
-#     def test_get_player_list(self):
-#         # arrange
 
-#         # act
-#         response = self.client.get('http://localhost:5000/player')
+def test_get_player_list(client):
+    # arrange
 
-#         # assert
-#         self.assertEqual(response.status_code, 200)
+    # act
+    response = client.get('http://localhost:5000/player')
+
+    # assert
+    assert response.status_code == 200
+    result = client.get('/player', follow_redirects=True)
+    assert b'Players' in result.data

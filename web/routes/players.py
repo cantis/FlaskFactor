@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
-# from flask_login import current_user, login_required
+from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
@@ -33,7 +33,7 @@ class EditPlayerForm(FlaskForm):
 def show_player_list_form():
     """ Show list of players """
     player_list = Player.query.all()
-    return render_template('player/player_list.html', players=player_list, user=current_user.firstname)
+    return render_template('player/player_list.html', players_list=player_list, current_user=current_user)
 
 
 @player_bp.route('/player/add', methods=['GET', 'POST'])
