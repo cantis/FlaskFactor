@@ -1,14 +1,21 @@
 {% extends "layout/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+{% endblock styles%}
+
 {% block content %}
 <div class="container">
+    <!-- Header  -->
     <div class="row col-md-offset-3 col-md-6">
         <h1>Parties</h1>
     </div>
     <br>
+    <!-- Party List  -->
     <div class="row col-md-offset-3 col-md-6">
-        <table class="table">
+        <table class="table" id="PartyTable">
             <thead>
                 <tr>
                     <th>Party Name</th>
@@ -36,6 +43,14 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Add Form  -->
+    {% if mode == 'add' %}
+
+
+
+
+
     <div class="row col-md-offset-3 col-md-6">
         <a href="party/add" class="link">Add Party</a>
     </div>
