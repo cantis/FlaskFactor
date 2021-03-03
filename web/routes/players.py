@@ -38,7 +38,7 @@ def player_form():
     player_list = Player.query.all()
     form = AddPlayerForm()
     mode = 'add'
-    return render_template('player/player.html', player_list=player_list, current_user=current_user, mode=mode, form=form)
+    return render_template('player.html', player_list=player_list, current_user=current_user, mode=mode, form=form)
 
 
 @player_bp.route('/player/add', methods=['POST'])
@@ -69,9 +69,9 @@ def player_edit_form_get(id):
     player_list = Player.query.all()
     mode = 'edit'
     form = EditPlayerForm()
-    form.process(obj=player)
     form.process(obj=player_list)
-    return render_template('player/player.html', player_list=player_list, player=player, form=form, mode=mode, current_user=current_user)
+    form.process(obj=player)
+    return render_template('player.html', player_list=player_list, player=player, form=form, mode=mode, current_user=current_user)
 
 
 @player_bp.route('/player/<id>', methods=['POST'])
@@ -95,9 +95,9 @@ def player_edit_form_post(id):
         mode = 'add'
     else:
         # We end up back in edit mode if we don't validate
-        form.process(obj=player)
         form.process(obj=player_list)
+        form.process(obj=player)
         mode = 'edit'
 
     # show the player form, mode from validate above
-    return render_template('player/player.html', player_list=player_list, player=player, form=form, mode=mode, current_user=current_user)
+    return render_template('player.html', player_list=player_list, player=player, form=form, mode=mode, current_user=current_user)
