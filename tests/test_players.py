@@ -23,7 +23,7 @@ def client(app):
             first_name='Payton',
             last_name='Young',
             email='someone@noplace.com',
-            is_active='true')
+            is_active=True)
         )
         db.session.commit
 
