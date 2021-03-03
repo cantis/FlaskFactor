@@ -65,7 +65,7 @@ class User(db.Model, UserMixin):
     last_name = Column(String(40))
     email = Column(String(100), nullable=False)
     password = Column(String(20), index=False)
-    extend_existing = True
+    is_active = Column(Boolean, default=True)
 
     @login_manager.user_loader
     def load_user(id):
