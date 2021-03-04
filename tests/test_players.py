@@ -1,5 +1,4 @@
 import pytest
-from flask.globals import request
 
 from config import TestConfig
 from web import create_app, db
