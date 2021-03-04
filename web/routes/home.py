@@ -11,4 +11,4 @@ home_bp = Blueprint('home_bp', __name__, template_folder='templates', static_fol
 def index():
     """ Homepage """
     # return render_template('home/home.html', user=current_user.firstname)
-    return render_template('home/home.html', user='<not set>')
+    return render_template('home.html', user='<not set>')
