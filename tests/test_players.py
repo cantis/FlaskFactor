@@ -24,7 +24,7 @@ def client(app):
             email='someone@noplace.com',
             is_active=True)
         )
-        db.session.commit
+        db.session.commit()
 
         yield client
         db.drop_all()

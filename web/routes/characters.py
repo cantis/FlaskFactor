@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
 from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, BooleanField
+from wtforms import StringField, HiddenField, BooleanField, IntegerField
 from wtforms.fields.core import SelectField
 from wtforms.validators import InputRequired
 
@@ -13,71 +13,55 @@ from web.models import Character, Player, Party
 character_bp = Blueprint('character_bp', __name__, template_folder='templates', static_folder='static')
 
 
-# Form Definition
-# class AddCharacterForm(FlaskForm):
-#     """ Character Add Form """
-#     player_id = SelectField(label='Player', coerce=int)
-#     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
-#     character_class = StringField(label='Character Class')
-#     party_id = SelectField(label='Party', coerce=int)
+# Form Definitions
+class AddCharacterForm(FlaskForm):
+    """ Character Add Form """
+    character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
+    character_class = StringField(label='Character Class')
+    party_id = IntegerField(label='Party')
+    player_id = IntegerField(label='Player')
 
 
-# class EditCharacterForm(FlaskForm):
-#     """ Character Edit Form """
-#     id = HiddenField()
-#     player_id = SelectField(label='Player', coerce=int)
-#     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
-#     character_class = StringField(label='Character Class')
-#     is_active = BooleanField(label='Active')
-#     is_dead = BooleanField(label='Dead')
-#     party_id = SelectField(label='Party', coerce=int)
+class EditCharacterForm(FlaskForm):
+    """ Character Edit Form """
+    id = HiddenField()
+    player_id = SelectField(label='Player', coerce=int)
+    character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
+    character_class = StringField(label='Character Class')
+    is_active = BooleanField(label='Active')
+    is_dead = BooleanField(label='Dead')
+    party_id = SelectField(label='Party', coerce=int)
 
 
 # Handlers
 @character_bp.route('/character', methods=['GET'])
 # @login_required
 def show_character_list_form():
-    """ Show list of current characters for user """
     character_list = Character.query.all()
-    return render_template('character.html', characters=character_list, current_user=current_user)
+    form = AddCharacterForm()
+    mode = 'add'
+    return render_template('character.html', character_list=character_list, form=form, mode=mode, current_user=current_user)
 
 
-# @character_bp.route('/character/add', methods=['GET', 'POST'])
-# # @login_required
-# def show_add_character_form():
-#     """ Show add character form and handle inserting new characters """
+@character_bp.route('/character/add', methods=['POST'])
+# @login_required
+def show_add_character_form():
+    form = AddCharacterForm()
 
-#     form = AddCharacterForm()
+    if form.validate_on_submit():
+        new_character = Character(
+            character_name=form.character_name.data,
+            character_class=form.character_class.data,
+            player_id=form.player_id.data,
+            party_id=form.party_id.data,
+            is_active=True,
+            is_dead=False
+        )
+        db.session.add(new_character)
+        db.session.commit()
+        flash('Character Added', 'success')
 
-#     # Check that we have at least one player.
-#     player_list = Player.query.with_entities(Player.id, Player.firstname)
-#     if player_list.count() == 0:
-#         flash('Characters require at least one Player.', 'warning')
-#         return redirect(url_for('player_bp.show_player_list_form'))
-#     form.player_id.choices = player_list
-
-#     # Check that we have at lease one party.
-#     party_list = Party.query.with_entities(Party.id, Party.party_name)
-#     if party_list.count() == 0:
-#         flash('Characters require at least one Party.', 'warning')
-#         return redirect(url_for('party_bp.show_party_list_form'))
-#     form.party_id.choices = party_list
-
-#     if form.validate_on_submit():
-#         new_character = Character(
-#             player_id=form.player_id.data,
-#             character_name=form.character_name.data,
-#             character_class=form.character_class.data,
-#             is_active=True,
-#             is_dead=False,
-#             party_id=form.party_id.data
-#         )
-#         db.session.add(new_character)
-#         db.session.commit()
-#         flash('Character Added', 'success')
-#         return redirect(url_for('character_bp.show_character_list_form'))
-
-#     return render_template('character/character_add.html', form=form, user=current_user.firstname)
+    return redirect(url_for('character_bp.show_character_list_form'))
 
 
 # @character_bp.route('/character/<id>', methods=['GET', 'POST'])
