@@ -9,12 +9,13 @@
 {% block content %}
 <div class="container">
     <!-- Header  -->
-    <div class="row col-md-offset-3 col-md-6">
-        <h1>Parties</h1>
+    <div class="row col-md-10">
+        <h1 id='page-header'>Parties</h1>
     </div>
     <br>
+
     <!-- Party List  -->
-    <div class="row col-md-offset-3 col-md-6">
+    <div class="row col-md-offset-1 col-md-8">
         <table class="table" id="PartyTable">
             <thead>
                 <tr>
@@ -24,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for party in parties %}
+                {% for party in party_list %}
                 <tr>
                     <td>{{ party.party_name }}</td>
                     <td>
@@ -46,10 +47,22 @@
 
     <!-- Add Form  -->
     {% if mode == 'add' %}
-
-
-
-
+        <div class="row col-md-offset-1 col-md-9">
+            <h2>Add Party</h2>
+            <form action="/party/add" class='form-horizontal' method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="party_name" class="col-md-3 control-label">Party Name</label>
+                    <div class="col-md-6">
+                        {{form.party_name(class="form-control", placeholder="Adventuring Inc.")}}
+                    </div>
+                </div>
+                <div class="col-md-offset-9">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </form>
+        </div>
+    {% endif %}
 
     <div class="row col-md-offset-3 col-md-6">
         <a href="party/add" class="link">Add Party</a>

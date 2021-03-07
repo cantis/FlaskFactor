@@ -18,8 +18,8 @@ class AddCharacterForm(FlaskForm):
     """ Character Add Form """
     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
     character_class = StringField(label='Character Class')
-    party_id = IntegerField(label='Party')
-    player_id = IntegerField(label='Player')
+    party_id = SelectField(label='Party',  coerce=int)
+    player_id = SelectField(label='Player', coerce=int)
 
 
 class EditCharacterForm(FlaskForm):
@@ -39,13 +39,16 @@ class EditCharacterForm(FlaskForm):
 def show_character_list_form():
     character_list = Character.query.all()
     form = AddCharacterForm()
+    form.player_id.choices = [(pl.id, pl.first_name) for pl in Player.query.all()]
+    form.party_id.choices = [(pa.id, pa.party_name) for pa in Party.query.all()]
     mode = 'add'
-    return render_template('character.html', character_list=character_list, form=form, mode=mode, current_user=current_user)
+    return render_template('character.html', character_list=character_list, form=form, mode=mode,
+                           current_user=current_user)
 
 
 @character_bp.route('/character/add', methods=['POST'])
 # @login_required
-def show_add_character_form():
+def add_character():
     form = AddCharacterForm()
 
     if form.validate_on_submit():

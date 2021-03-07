@@ -29,16 +29,17 @@ class EditPartyForm(FlaskForm):
 # Handlers
 @party_bp.route('/party', methods=['GET'])
 # @login_required
-def show_party_list_form():
+def show_party_form():
     """ Show list of Adventuring Parties """
     party_list = Party.query.all()
-    return render_template('party/party_list.html', parties=party_list, user=current_user.firstname)
+    form = AddPartyForm()
+    mode = 'add'
+    return render_template('/party.html', party_list=party_list, current_user=current_user, form=form, mode=mode)
 
 
-@party_bp.route('/party/add', methods=['GET', 'POST'])
+@party_bp.route('/party/add', methods=['POST'])
 # @login_required
-def show_party_add_form():
-    """ Show add party form and handle inserting new party """
+def add_party():
     form = AddPartyForm()
 
     if form.validate_on_submit():
@@ -49,22 +50,22 @@ def show_party_add_form():
         db.session.add(new_party)
         db.session.commit()
         flash('Party Added', 'success')
-        return redirect(url_for('party_bp.show_party_list_form'))
-    return render_template('party/party_add.html', form=form, user=current_user.firstname)
+
+    return redirect(url_for('party_bp.show_party_form'))
 
 
-@party_bp.route('/party/<id>', methods=['GET', 'POST'])
-# @login_required
-def show_party_edit_form(id):
-    """ Show party edit form and handle updates """
-    form = EditPartyForm()
-    edit_party = Party.query.filter_by(id=id).first()
+# @party_bp.route('/party/<id>', methods=['GET', 'POST'])
+# # @login_required
+# def show_party_edit_form(id):
+#     """ Show party edit form and handle updates """
+#     form = EditPartyForm()
+#     edit_party = Party.query.filter_by(id=id).first()
 
-    if form.validate_on_submit():
-        edit_party.party_name = form.party_name.data
-        edit_party.is_active = form.is_active.data
-        db.session.commit()
-        return redirect(url_for('party_bp.show_party_list_form'))
-    else:
-        form.process(obj=edit_party)
-        return render_template('party/party_edit.html', form=form, party=edit_party, user=current_user.firstname)
+#     if form.validate_on_submit():
+#         edit_party.party_name = form.party_name.data
+#         edit_party.is_active = form.is_active.data
+#         db.session.commit()
+#         return redirect(url_for('party_bp.show_party_list_form'))
+#     else:
+#         form.process(obj=edit_party)
+#         return render_template('party/party_edit.html', form=form, party=edit_party, user=current_user.firstname)

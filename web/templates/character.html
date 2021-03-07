@@ -31,10 +31,10 @@
                 <tbody>
                     {% for character in character_list %}
                     <tr>
-                        <td>{{ character.player.first_name}}</td>
+                        <td>{{ character.player.first_name }}</td>
                         <td>{{ character.character_name }}</td>
                         <td>{{ character.character_class }}</td>
-                        <td>{{ character.party.party_name}}</td>
+                        <td>{{ character.party.party_name }}</td>
                         <td>
                             {% if character.is_active %}
                                 <i class="glyphicon glyphicon-ok"></i>
@@ -77,11 +77,15 @@
                     </div>
                     <div class="form-group">
                         <label for="party_id" class="col-md-3 control-label">Party</label>
-                        <!-- party drop down  -->
+                        <div class="col-md-6">
+                            {{form.party_id(class="form-control")}}
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="player_id" class="col-md-3 control-label">Player</label>
-                        <!-- player drop down --> 
+                        <div class="col-md-6">
+                            {{form.player_id(class="form-control")}} 
+                        </div>
                     </div>
                     <div class="col-md-offset-9">
                         <input type="submit" value="Save" class="btn btn-primary">
