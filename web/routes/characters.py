@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
 from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
+from flask_wtf.recaptcha import validators
 from wtforms import StringField, HiddenField, BooleanField, IntegerField
 from wtforms.fields.core import SelectField
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, DataRequired
+from wtforms_sqlalchemy.fields import QuerySelectField
 
 from web import db
 from web.models import Character, Player, Party
@@ -18,8 +20,19 @@ class AddCharacterForm(FlaskForm):
     """ Character Add Form """
     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
     character_class = StringField(label='Character Class')
-    party_id = SelectField(label='Party',  coerce=int)
-    player_id = SelectField(label='Player', coerce=int)
+    # NOTE: the wtformst_sqlalchemy.fields is a bit of ahack from https://pypi.org/project/WTForms-SQLAlchemy/
+    # this is becaue support for ORM-backed fields is depricated in wtforms.
+    party_id = QuerySelectField(
+        label='Party',
+        get_label='party_name',
+        query_factory=lambda: Party.query,
+        validators=[DataRequired()]
+    )
+    player_id = QuerySelectField(
+        label='Player',
+        get_label='first_name',
+        query_factory=lambda: Player.query,
+        validators=[DataRequired()])
 
 
 class EditCharacterForm(FlaskForm):
@@ -39,8 +52,6 @@ class EditCharacterForm(FlaskForm):
 def show_character_list_form():
     character_list = Character.query.all()
     form = AddCharacterForm()
-    form.player_id.choices = [(pl.id, pl.first_name) for pl in Player.query.all()]
-    form.party_id.choices = [(pa.id, pa.party_name) for pa in Party.query.all()]
     mode = 'add'
     return render_template('character.html', character_list=character_list, form=form, mode=mode,
                            current_user=current_user)
@@ -55,8 +66,8 @@ def add_character():
         new_character = Character(
             character_name=form.character_name.data,
             character_class=form.character_class.data,
-            player_id=form.player_id.data,
-            party_id=form.party_id.data,
+            player_id=form.player_id.data.id,
+            party_id=form.party_id.data.id,
             is_active=True,
             is_dead=False
         )

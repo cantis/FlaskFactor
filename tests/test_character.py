@@ -31,7 +31,6 @@ def client(app):
             is_active=True
             )
         )
-        db.session.commit()
 
         db.session.add(Character(
             character_name='Milo Thorngage',
