@@ -27,11 +27,10 @@ def client(app):
         )
 
         db.session.add(Party(
-            party_name='Adventure Inc.',
+            party_name='Adventure Inc',
             is_active=True
             )
         )
-        db.session.commit()
 
         db.session.add(Character(
             character_name='Milo Thorngage',
@@ -47,35 +46,44 @@ def client(app):
         db.drop_all()
 
 
-def test_navigate_to_party_form(client):
+def test_navigate_to_character_form(client):
     # arrange
 
     # act
-    result = client.get('/party', follow_redirects=True)
+    result = client.get('/character', follow_redirects=True)
 
     # assert
-    assert b'Parties' in result.data
+    assert b'Characters' in result.data
 
 
-def test_party_listed(client):
+def test_character_listed(client):
     # arrange
 
     # act
-    result = client.get('/party', follow_redirects=True)
+    result = client.get('/character', follow_redirects=True)
 
     # assert
-    assert b'Adventuring Inc.' in result.data
+    assert b'Milo Thorngage' in result.data
+    assert b'Investigator' in result.data
 
 
-def test_party_add_ok(client):
+def test_character_add_ok(client):
     # arrange
-    data = dict(party_name='Mighty Nine')
+    data = dict(
+        character_name='Barbog',
+        character_class='Barbarian',
+        party_id=1,
+        player_id=1
+        )
 
     # act
-    client.post('/party/add', data=data, follow_redirects=True)
+    client.post('/character/add', data=data, follow_redirects=True)
 
     # assert
-    party = Party.query.get(2)
-    assert party.party_name == 'Mighty Nine'
-    assert party.is_active is True
-
+    character = Character.query.get(2)
+    assert character.character_name == 'Barbog'
+    assert character.character_class == 'Barbarian'
+    assert character.player_id == 1
+    assert character.party_id == 1
+    assert character.is_active is True
+    assert character.is_dead is False

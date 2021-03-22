@@ -11,5 +11,8 @@ This is a Python / Flask / sqlite etc. learning project for me so please don't u
 **20 Feb 21**  
 Returning to this after a bit away on my CoinPurse project, need to re-factor a bunch to match that structure better. 
 
+**20 Mar 21**
+Got the docker config one of my other projects working coming back to this one now. 
+
 
 
