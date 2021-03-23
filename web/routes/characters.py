@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
 from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
-from flask_wtf.recaptcha import validators
-from wtforms import StringField, HiddenField, BooleanField, IntegerField
-from wtforms.fields.core import SelectField
+from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired, DataRequired
 from wtforms_sqlalchemy.fields import QuerySelectField
 
