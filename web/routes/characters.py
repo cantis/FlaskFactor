@@ -38,12 +38,21 @@ class AddCharacterForm(FlaskForm):
 class EditCharacterForm(FlaskForm):
     """ Character Edit Form """
     id = HiddenField()
-    player_id = SelectField(label='Player', coerce=int)
     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
     character_class = StringField(label='Character Class')
     is_active = BooleanField(label='Active')
     is_dead = BooleanField(label='Dead')
-    party_id = SelectField(label='Party', coerce=int)
+    party_id = QuerySelectField(
+        label='Party',
+        get_label='party_name',
+        query_factory=lambda: Party.query,
+        validators=[DataRequired()]
+    )
+    player_id = QuerySelectField(
+        label='Player',
+        get_label='first_name',
+        query_factory=lambda: Player.query,
+        validators=[DataRequired()])
 
 
 # Handlers
@@ -78,30 +87,46 @@ def add_character():
     return redirect(url_for('character_bp.show_character_list_form'))
 
 
-# @character_bp.route('/character/<id>', methods=['GET', 'POST'])
-# # @login_required
-# def show_character_edit_form(id):
-#     """ Show Character edit form and handle character updates """
+@character_bp.route('/character/<id>', methods=['GET'])
+# @login_required
+def player_edit_form_get(id):
+    ''' Show Character edit form '''
+    character = Character.query.get(id)
+    character_list = Character.query.all()
+    mode = 'edit'
+    form = EditCharacterForm()
+    form.process(obj=character_list)
+    form.process(obj=character)
+    return render_template('character.html', character_list=character_list, character=character, form=form, mode=mode, current_user=current_user)
 
-#     # TODO: Deal with character or user not found
-#     edit_character = Character.query.filter_by(id=id).first()
 
-#     form = EditCharacterForm()
+@character_bp.route('/character/<id>', methods=['POST'])
+# @login_required
+def character_edit_form(id):
+    """ Handle editing a character """
 
-#     if form.validate_on_submit():
-#         edit_character.id = int(form.id.data)
-#         edit_character.player_id = form.player_id.data
-#         edit_character.character_name = form.character_name.data
-#         edit_character.character_class = form.character_class.data
-#         edit_character.is_active = form.is_active.data
-#         edit_character.is_dead = form.is_dead.data
-#         edit_character.party_id = form.party_id.data
-#         db.session.commit()
-#         return redirect(url_for('character_bp.show_character_list_form'))
-#     else:
-#         player_list = Player.query.with_entities(Player.id, Player.firstname)
-#         form.player_id.choices = player_list
-#         party_list = Party.query.with_entities(Party.id, Party.party_name)
-#         form.party_id.choices = party_list
-#         form.process(obj=edit_character)
-#         return render_template('character/character_edit.html', form=form, character=edit_character, user=current_user.firstname)
+    # TODO: Deal with character or user not found
+    edit_character = Character.query.filter_by(id=id).first()
+    if not edit_character:
+        raise IndexError(f'Index {id} not found')
+
+    form = EditCharacterForm()
+
+    if form.validate_on_submit():
+        edit_character.id = int(form.id.data)
+        edit_character.character_name = form.character_name.data
+        edit_character.character_class = form.character_class.data
+        edit_character.is_active = form.is_active.data
+        edit_character.is_dead = form.is_dead.data
+        edit_character.party_id = form.party_id.data.id
+        edit_character.player_id = form.player_id.data.id
+        db.session.commit()
+        return redirect(url_for('character_bp.show_character_list_form'))
+    else:
+        # Back to edit mode, validation failed. 
+        character_list = Character.query.all()
+        mode = 'edit'
+        form = EditCharacterForm()
+        form.process(obj=character_list)
+        form.process(obj=edit_character)
+        return render_template('character/character_edit.html', form=form, character=edit_character, mode=mode, current_user=current_user)

@@ -87,3 +87,39 @@ def test_character_add_ok(client):
     assert character.party_id == 1
     assert character.is_active is True
     assert character.is_dead is False
+
+
+def test_character_edit_get_ok(client):
+    # arrange
+
+    # act
+    result = client.get('/character/1', follow_redirects=True)
+
+    # assert
+    assert b'Edit Character' in result.data
+
+
+def test_charcter_edit_post_ok(client):
+    # arrange
+    data = dict(
+            id=1,
+            character_name='John',
+            character_class='Smith',
+            is_active='false',
+            is_dead='true',
+            player_id=1,
+            party_id=1
+    )
+
+    # act
+    result = client.post('/character/1', data=data, follow_redirects=True)
+
+    # assert
+    character = Character.query.get(1)
+    assert character.character_name == 'John'
+    assert character.character_class == 'Smith'
+    assert character.is_active is False
+    assert character.is_dead is True
+    assert character.player_id == 1
+    assert character.party_id == 1
+    assert b'Add Character' in result.data
