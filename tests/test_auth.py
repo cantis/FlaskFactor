@@ -47,6 +47,36 @@ def client(app):
         db.drop_all()
 
 
+def test_show_login(client):
+    # arrange
+
+    # act
+    result = client.get('/login', follow_redirects=True)
+
+    # assert
+    assert b'Login' in result.data
+
+
+def test_show_signup(client):
+    # arrange
+
+    # act
+    result = client.get('/signup', follow_redirects=True)
+
+    # assert
+    assert b'Sign Up' in result.data
+
+
+def test_logout_user(client):
+    # arrange
+
+    # act
+    result = client.get('/logout', follow_redirects=True)
+
+    # assert
+    assert b'Login' in result.data
+
+
 def test_capitals_in_signup(client):
     """ capitals in password should be lowercased """
     # arrange
@@ -157,5 +187,3 @@ def test_login_missing_email(client):
 
     # assert
     assert b'Login' in result.data
-
-

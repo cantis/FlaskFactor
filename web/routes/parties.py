@@ -28,7 +28,7 @@ class EditPartyForm(FlaskForm):
 
 # Handlers
 @party_bp.route('/party', methods=['GET'])
-# @login_required
+@login_required
 def show_party_form():
     """ Show list of Adventuring Parties """
     party_list = Party.query.all()
@@ -38,7 +38,7 @@ def show_party_form():
 
 
 @party_bp.route('/party/add', methods=['POST'])
-# @login_required
+@login_required
 def add_party():
     form = AddPartyForm()
 

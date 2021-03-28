@@ -55,7 +55,7 @@ class EditCharacterForm(FlaskForm):
 
 # Handlers
 @character_bp.route('/character', methods=['GET'])
-# @login_required
+@login_required
 def show_character_list_form():
     character_list = Character.query.all()
     form = AddCharacterForm()
@@ -65,7 +65,7 @@ def show_character_list_form():
 
 
 @character_bp.route('/character/add', methods=['POST'])
-# @login_required
+@login_required
 def add_character():
     form = AddCharacterForm()
 
@@ -86,7 +86,7 @@ def add_character():
 
 
 @character_bp.route('/character/<id>', methods=['GET'])
-# @login_required
+@login_required
 def player_edit_form_get(id):
     ''' Show Character edit form '''
     character = Character.query.get(id)
@@ -99,7 +99,7 @@ def player_edit_form_get(id):
 
 
 @character_bp.route('/character/<id>', methods=['POST'])
-# @login_required
+@login_required
 def character_edit_form(id):
     """ Handle editing a character """
 

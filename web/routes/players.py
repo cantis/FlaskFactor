@@ -32,7 +32,7 @@ class EditPlayerForm(FlaskForm):
 
 # Handlers
 @player_bp.route('/player', methods=['GET'])
-# @login_required
+@login_required
 def player_form():
     ''' Show list of players '''
     player_list = Player.query.all()
@@ -42,7 +42,7 @@ def player_form():
 
 
 @player_bp.route('/player/add', methods=['POST'])
-# @login_required
+@login_required
 def add_player():
     ''' Process adding a player '''
     form = AddPlayerForm()
@@ -61,7 +61,7 @@ def add_player():
 
 
 @player_bp.route('/player/<id>', methods=['GET'])
-# @login_required
+@login_required
 def player_edit_form_get(id):
     ''' Show Player form in edit mode '''
     # TODO: Handle player not found
@@ -75,7 +75,7 @@ def player_edit_form_get(id):
 
 
 @player_bp.route('/player/<id>', methods=['POST'])
-# @login_required
+@login_required
 def player_edit_form_post(id):
     ''' Handle updates on the player edit form '''
     player = Player.query.get(id)

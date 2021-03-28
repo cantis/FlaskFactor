@@ -1,7 +1,7 @@
-from flask import Blueprint, current_app, render_template, redirect, url_for, flash
-# from flask_login import login_user, logout_user, current_user, login_required
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from wtforms import StringField, PasswordField
 from wtforms.fields.core import BooleanField
 from wtforms.validators import InputRequired, Email, Length
@@ -38,7 +38,7 @@ class LoginForm(FlaskForm):
 
 # Handlers
 @user_bp.route('/user', methods=['GET'])
-# @login_required
+@login_required
 def show_user_list_form():
     """Show list of current users."""
     userList = User.query.all()
@@ -66,7 +66,7 @@ def show_user_add_form():
 
 
 @user_bp.route('/user/profile/<user_id>', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def show_user_profile_form(user_id):
     """Show user edit form and handle user updates."""
 
@@ -87,7 +87,7 @@ def show_user_profile_form(user_id):
 
 
 @user_bp.route('/user/delete/<user_id>', methods=['GET'])
-# @login_required
+@login_required
 def delete_confirm(user_id):
     """ Show Delete Confirmation Dialog """
     delete_user = User.query.get(user_id)
@@ -98,7 +98,7 @@ def delete_confirm(user_id):
 
 
 @user_bp.route('/user/delete/<user_id>', methods=['POST'])
-# @login_required
+@login_required
 def delete_user(user_id):
     """Delete a user"""
     delete_user = User.query.get(user_id)
