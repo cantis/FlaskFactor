@@ -116,60 +116,6 @@ def delete_user(user_id):
     return redirect(url_for('user_bp.show_user_list_form'))
 
 
-# @user_bp.route('/login', methods=['GET', 'POST'])
-# def login():
-#     """ For GET requests, display the login form.
-#     for POST, process the form.
-#     """
-#     form = LoginForm()
-
-#     # handle if user is already logged in and they hit the login url send them home
-#     if current_user.is_authenticated:
-#         return redirect(url_for('home_bp.index'))
-
-#     if form.validate_on_submit():
-#         # POST Request
-
-#         # get the existing user
-#         user = User.query.get(form.user_id.data)
-
-#         # Check if user found and check if the supplied password is ok
-#         if user is None or not is_password_valid(user.password, form.password.data):
-#             flash('Invalid username or password.')
-#             form.process(obj=form.user_id.data)
-#             return render_template('user/login.html', form=form)
-
-#         # Valid login, go ahead and try and log in
-#         if login_user(user, remember=form.remember_me.data):
-#             flash(f'{user.firstname} logged in', 'success')
-#             return redirect(url_for('home_bp.index'))
-#         else:
-#             flash('Login not successfull', 'warning')
-#             return redirect(url_for('user_bp.login'))
-
-#     # GET request, show the login form
-#     print(current_app.instance_path)
-#     return render_template('user/login.html', form=form)
-
-
-# @user_bp.route('/logout', methods=['GET'])
-# @login_required
-# def logout():
-#     """Logout Current User."""
-#     user = current_user
-#     user.authenticated = False
-#     db.session.add(user)
-#     db.session.commit()
-#     logout_user()
-#     return render_template('user/logout.html')
-
-
-# def is_password_valid(hashed_password, input_password):
-#     """ check that the supplied password is correct """
-#     result = check_password_hash(hashed_password, input_password)
-#     return result
-
-
 def hash_password(cleartext_password):
     """ hash a password """
     hashed_password = generate_password_hash(cleartext_password)
