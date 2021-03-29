@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
 from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, BooleanField, validators
-from wtforms.fields.core import SelectField
+from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 
 from web import db
-from web.models import Party, Character
+from web.models import Party
 
 
 # Blueprint Configuration
@@ -20,7 +19,7 @@ class AddPartyForm(FlaskForm):
 
 
 class EditPartyForm(FlaskForm):
-    """ Party Edit Form """    
+    """ Party Edit Form """
     id = HiddenField()
     party_name = StringField(label='Party Name', validators=[InputRequired('A Party Name is required.')])
     is_active = BooleanField(label='Active')
@@ -54,18 +53,23 @@ def add_party():
     return redirect(url_for('party_bp.show_party_form'))
 
 
-# @party_bp.route('/party/<id>', methods=['GET', 'POST'])
-# # @login_required
-# def show_party_edit_form(id):
-#     """ Show party edit form and handle updates """
-#     form = EditPartyForm()
-#     edit_party = Party.query.filter_by(id=id).first()
+@party_bp.route('/party/<id>', methods=['GET', 'POST'])
+@login_required
+def show_party_edit_form(id):
+    """ Show party edit form and handle updates """
+    form = EditPartyForm()
+    party_list = Party.query.all()
+    edit_party = Party.query.filter_by(id=id).first()
 
-#     if form.validate_on_submit():
-#         edit_party.party_name = form.party_name.data
-#         edit_party.is_active = form.is_active.data
-#         db.session.commit()
-#         return redirect(url_for('party_bp.show_party_list_form'))
-#     else:
-#         form.process(obj=edit_party)
-#         return render_template('party/party_edit.html', form=form, party=edit_party, user=current_user.firstname)
+    if not edit_party:
+        raise IndexError(f'Party id {id} not found')
+
+    if form.validate_on_submit():
+        edit_party.party_name = form.party_name.data
+        edit_party.is_active = form.is_active.data
+        db.session.commit()
+        return redirect(url_for('party_bp.show_party_form'))
+    else:
+        mode = 'edit'
+        form.process(obj=edit_party)
+        return render_template('party.html', party_list=party_list, form=form, party=edit_party, current_user=current_user, mode=mode)

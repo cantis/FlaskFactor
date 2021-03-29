@@ -79,3 +79,37 @@ def test_party_add_ok(client):
     assert party.party_name == 'Mighty Nine'
     assert party.is_active is True
 
+
+def test_party_edit_get_ok(client):
+    # arrange
+
+    # act
+    response = client.get('party/1', follow_redirects=True)
+
+    # assert
+    assert b'Edit Party' in response.data
+
+
+def test_party_edit_post_ok(client):
+    # arrange
+    data = dict(party_name='Chaos Co.', is_active='false')
+
+    # act
+    client.post('party/1', data=data, follow_redirects=True)
+
+    # assert
+    party = Party.query.get(1)
+    assert party.party_name == 'Chaos Co.'
+    assert party.is_active is False
+
+
+def test_party_edit_notfound(client):
+    with pytest.raises(IndexError) as ex:
+        # arrange
+        data = dict(party_name='Test Party', is_active=False)
+
+        # act
+        client.post('party/2', data=data, follow_redirects=True)
+
+    # assert
+    assert 'Party id 2 not found' in str(ex.value)
