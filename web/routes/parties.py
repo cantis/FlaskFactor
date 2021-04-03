@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
+from werkzeug.exceptions import InternalServerError
 
 from web import db
 from web.models import Party
@@ -62,7 +63,7 @@ def show_party_edit_form(id):
     edit_party = Party.query.filter_by(id=id).first()
 
     if not edit_party:
-        raise IndexError(f'Party id {id} not found')
+        return InternalServerError(description='Party id {id} not found'), 500
 
     if form.validate_on_submit():
         edit_party.party_name = form.party_name.data

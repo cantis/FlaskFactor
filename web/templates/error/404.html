@@ -1,0 +1,32 @@
+{% extends "layout/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+{% endblock styles%}
+
+{% block navbar %}
+    <!-- Empty Navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">Flask Factor</a>
+            </div>
+        </div>
+    </nav>
+{% endblock navbar %} 
+
+{% block content %}
+    <div class="container">
+        <!-- Page Header -->
+        <div class="row col-md-10">
+            <h2 class="page-header">Page Not Found (404)</h2>
+        </div>
+
+        <!-- Login Form  -->
+        <div class="row col-md-offset-1 col-md-9">
+            <p>That page does not exist. Pelase try a different location.</p>
+        </div>
+    </div>
+{% endblock content %}

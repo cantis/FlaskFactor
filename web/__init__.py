@@ -39,7 +39,7 @@ def create_app():
     # login_manager.login_message_category = 'info'
 
     # Import parts of our application (add new 'components' here)
-    from web.routes import home, characters, players, parties, auth
+    from web.routes import home, characters, players, parties, auth, errors
 
     # Register Blueprints
     app.register_blueprint(home.home_bp)
@@ -47,6 +47,7 @@ def create_app():
     app.register_blueprint(players.player_bp)
     app.register_blueprint(characters.character_bp)
     app.register_blueprint(parties.party_bp)
+    app.register_blueprint(errors.error_bp)
 
     # after we're all done, return the application object. It becomes available via flask as app.
     return app

@@ -1,5 +1,6 @@
 import pytest
 
+
 from config import TestConfig
 from web import create_app, db
 from web.models import Character, Player, Party
@@ -41,7 +42,7 @@ def client(app):
             player_id=1,
             party_id=1
         ))
-        db.session.commit()
+        db.session.commit() 
 
         yield client
         db.drop_all()
@@ -102,14 +103,3 @@ def test_party_edit_post_ok(client):
     assert party.party_name == 'Chaos Co.'
     assert party.is_active is False
 
-
-def test_party_edit_notfound(client):
-    with pytest.raises(IndexError) as ex:
-        # arrange
-        data = dict(party_name='Test Party', is_active=False)
-
-        # act
-        client.post('party/2', data=data, follow_redirects=True)
-
-    # assert
-    assert 'Party id 2 not found' in str(ex.value)
