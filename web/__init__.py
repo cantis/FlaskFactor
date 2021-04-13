@@ -6,8 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-
-from config import DevConfig
+from config import DevConfig, StageConfig
 
 # create global objects
 db = SQLAlchemy()
@@ -23,7 +22,8 @@ def create_app():
     app = Flask(__name__)
 
     # Load in configuration
-    app.config.from_object(DevConfig())
+    # app.config.from_object(DevConfig())
+    app.config.from_object(StageConfig())
 
     # initalize global objects
     db.init_app(app)
