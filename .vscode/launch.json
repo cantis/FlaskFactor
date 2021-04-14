@@ -13,6 +13,7 @@
             "env": {
                 // General
                 "FLASK_DEBUG": "1",
+                "ENV": "debug"
             },
             "args": [
                 "run"
@@ -20,13 +21,14 @@
             "jinja": true
         },
         {
-            "name": "Create Admin User",
+            "name": "Factor - Stage",
             "type": "python",
             "request": "launch",
-            "module": "create_user",
+            "module": "flask",
             "env": {
                 // General
                 "FLASK_DEBUG": "1",
+                "ENV": "stage"
             },
             "args": [
                 "run"
