@@ -36,6 +36,7 @@ class StageConfig(BaseConfig):
     FLASK_DEBUG = True
     TESTING = True
     DEBUG = True
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:Monday1@localhost/FlaskFactor'
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:Monday1@localhost/FlaskFactor'
 
 

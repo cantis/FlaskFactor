@@ -12,7 +12,6 @@
             "module": "flask",
             "env": {
                 // General
-                "FLASK_DEBUG": "1",
                 "ENV": "debug"
             },
             "args": [
@@ -27,7 +26,6 @@
             "module": "flask",
             "env": {
                 // General
-                "FLASK_DEBUG": "1",
                 "ENV": "stage"
             },
             "args": [
