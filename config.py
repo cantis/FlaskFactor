@@ -29,6 +29,17 @@ class ProdConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///../data/factor.sqlite'
 
 
+class StageConfig(BaseConfig):
+    """ Development Configuration """
+    ENV = 'stage'
+    FLASK_ENV = 'stage'
+    FLASK_DEBUG = True
+    TESTING = True
+    DEBUG = True
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:Monday1@localhost/FlaskFactor'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:Monday1@localhost/FlaskFactor'
+
+
 class DevConfig(BaseConfig):
     """ Development Configuration """
     ENV = 'development'

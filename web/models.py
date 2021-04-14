@@ -64,7 +64,7 @@ class User(db.Model, UserMixin):
     first_name = Column(String(40))
     last_name = Column(String(40))
     email = Column(String(100), nullable=False)
-    password = Column(String(20), index=False)
+    password = Column(String(300), index=False)
     is_active = Column(Boolean, default=True)
 
     @login_manager.user_loader

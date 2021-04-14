@@ -1,8 +1,8 @@
 """baseline
 
-Revision ID: 82c076493146
+Revision ID: 5509f24447c0
 Revises: 
-Create Date: 2021-02-23 21:13:31.266260
+Create Date: 2021-04-13 13:46:46.386376
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '82c076493146'
+revision = '5509f24447c0'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,9 +31,10 @@ def upgrade():
     )
     op.create_table('players',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('first_name', sa.String(length=20), nullable=True),
-    sa.Column('last_name', sa.String(length=20), nullable=True),
+    sa.Column('first_name', sa.String(length=40), nullable=True),
+    sa.Column('last_name', sa.String(length=40), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
+    sa.Column('email', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -41,7 +42,8 @@ def upgrade():
     sa.Column('first_name', sa.String(length=40), nullable=True),
     sa.Column('last_name', sa.String(length=40), nullable=True),
     sa.Column('email', sa.String(length=100), nullable=False),
-    sa.Column('password', sa.String(length=20), nullable=True),
+    sa.Column('password', sa.String(length=300), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('characters',

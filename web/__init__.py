@@ -5,9 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 # from flask_toastr import Toastr
 from flask_login import LoginManager
 from flask_migrate import Migrate
+import os
 
-
-from config import DevConfig
+from config import DevConfig, StageConfig
 
 # create global objects
 db = SQLAlchemy()
@@ -23,7 +23,13 @@ def create_app():
     app = Flask(__name__)
 
     # Load in configuration
-    app.config.from_object(DevConfig())
+    environment = os.getenv('ENV')
+
+    if environment == 'debug':
+        app.config.from_object(DevConfig())
+
+    if environment == 'stage':
+        app.config.from_object(StageConfig())
 
     # initalize global objects
     db.init_app(app)
