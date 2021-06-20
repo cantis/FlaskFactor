@@ -52,7 +52,7 @@ def signup_post():
         new_user = User(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
-            email=form.email.data,
+            email=form.email.data.lower(),
             password=generate_password_hash(form.password.data, method='sha256')
         )
 
