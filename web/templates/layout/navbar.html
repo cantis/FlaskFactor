@@ -15,6 +15,20 @@
                 <li {% if request.path == '/character' %} class="active" {% endif %}><a href="/character">Characters</a></li>
                 <li {% if request.path == '/player' %} class="active" {% endif %}><a href="/player">Players</a></li>
                 <li {% if request.path == '/party' %} class="active" {% endif %}><a href="/party">Party</a></li>
+                <!-- Select Party -->
+                <li><a href="#">Current Party:</a>
+                    <form action="/nav_select_party" class="form-horizontal" method="post"></form>
+                        <li class="dropdown">
+                            <a href="/change_party" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Please Select:<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Party 1</a></li>
+                                <li><a href="#">Party 2</a></li>
+                                <li><a href="#">Party 3</a></li>
+                            </ul>
+                        </li>
+                    </form>
+                </li>
+                <a href="#"></a>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

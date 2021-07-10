@@ -45,26 +45,6 @@ def show_user_list_form():
     return render_template('user/user_list.html', users=userList, user=current_user.firstname)
 
 
-# @user_bp.route('/user/add', methods=['GET', 'POST'])
-# def show_user_add_form():
-#     """Show user add form and handle inserting new users."""
-#     form = UserAddForm()
-#     # check and see if it's a POST, i.e. it's a form submit
-#     if form.validate_on_submit():
-#         user_id = form.user_id.data.lower
-#         password = form.password.data
-#         firstname = form.firstname.data
-#         lastname = form.lastname.data
-#         new_user = User(user_id=user_id, password=password, firstname=firstname, lastname=lastname)
-#         db.session.add(new_user)
-#         db.session.commit()
-#         flash('User Added', 'success')
-#         return redirect(url_for('user_bp.show_user_list_form'))
-
-#     # if it's just a GET show the form
-#     return render_template('user/user_add.html', form=form)
-
-
 @user_bp.route('/user/profile/<user_id>', methods=['GET', 'POST'])
 @login_required
 def show_user_profile_form(user_id):

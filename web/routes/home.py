@@ -11,3 +11,9 @@ home_bp = Blueprint('home_bp', __name__, template_folder='templates', static_fol
 def index():
     """ Homepage """
     return render_template('/home.html', current_user=current_user)
+
+
+@home_bp.route('/nav_select_party', methods=['POST'])
+@login_required
+def change_current_party(id): 
+    """ Change the current party """
