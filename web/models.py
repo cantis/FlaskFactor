@@ -72,5 +72,13 @@ class User(db.Model, UserMixin):
         return User.query.get(id)
 
 
+class Setting(db.Model):
+    ''' Data Model for an Application Setting '''
+    __tablename__ = 'settings'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), nullable=False)
+    value = Column(String(100), nullable=False)
+
+
 def init_db():
     db.create_all()
