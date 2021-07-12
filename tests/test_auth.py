@@ -1,4 +1,4 @@
-""" Tests for user creation and authorization """
+''' Tests for user creation and authorization '''
 import pytest
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -9,7 +9,7 @@ from config import TestConfig
 
 @pytest.fixture(scope='session')
 def app():
-    """ Application Ficture """
+    ''' Application Ficture '''
     app = create_app()
     config = TestConfig()
     app.config.from_object(config)
@@ -18,7 +18,7 @@ def app():
 
 @pytest.fixture(scope='function')
 def empty_client(app):
-    """ Empty Fixture """
+    ''' Empty Fixture '''
     with app.app_context():
         empty_client = app.test_client()
         db.create_all()
@@ -29,7 +29,7 @@ def empty_client(app):
 
 @pytest.fixture(scope='function')
 def client(app):
-    """ Fixture with some basic data """
+    ''' Fixture with some basic data '''
     with app.app_context():
         client = app.test_client()
         db.create_all()
@@ -78,20 +78,19 @@ def test_logout_user(client):
 
 
 def test_capitals_in_signup(client):
-    """ capitals in password should be lowercased """
-    # arrange
-
+    ''' capitals in username should be auto lowercased '''
     # act
     form_data = dict(first_name='Test', last_name='User', email='Someone@Gmail.com', password='Monday1', confirm='Monday1')
     client.post('/signup', data=form_data, follow_redirects=True)
 
     # assert
-    user = User.query.filter_by(email='someone@gmail.com')
+    user = User.query.get(2)
     assert user is not None
+    assert user.email == 'someone@gmail.com'
 
 
 def test_capitals_in_login(client):
-    """ user has capitals in login email """
+    ''' user has capitals in login email '''
     # arrange
 
     # act
@@ -103,7 +102,7 @@ def test_capitals_in_login(client):
 
 
 def test_attempt_signup_existing_user(client):
-    """ User exists, we should redirect to signup """
+    ''' User exists, we should redirect to signup '''
     # arrange
 
     # act
@@ -115,7 +114,7 @@ def test_attempt_signup_existing_user(client):
 
 
 def test_attempt_signup_missing_data(client):
-    """ Missing data, we should redirect to signup """
+    ''' Missing data, we should redirect to signup '''
     # arrange
 
     # act
@@ -127,7 +126,7 @@ def test_attempt_signup_missing_data(client):
 
 
 def test_signup_ok(client):
-    """ Ok user Add, redirect to login, data added """
+    ''' Ok user Add, redirect to login, data added '''
     # arrange
 
     # act
@@ -141,7 +140,7 @@ def test_signup_ok(client):
 
 
 def test_check_signup_password_hashed(client):
-    """ Check the password has been hashed ok """
+    ''' Check the password has been hashed ok '''
     # arrange
 
     # act
@@ -154,7 +153,7 @@ def test_check_signup_password_hashed(client):
 
 
 def test_login_ok(client):
-    """ Valid Login, no characters """
+    ''' Valid Login, no characters '''
     # arrange
 
     # act
@@ -166,7 +165,7 @@ def test_login_ok(client):
 
 
 def test_login_invalid_password(client):
-    """ Invalid Login, bad password """
+    ''' Invalid Login, bad password '''
     # arrange
 
     # act
@@ -178,7 +177,7 @@ def test_login_invalid_password(client):
 
 
 def test_login_missing_email(client):
-    """ Invalid Login, missing email """
+    ''' Invalid Login, missing email '''
     # arrange
 
     # act

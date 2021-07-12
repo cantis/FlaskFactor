@@ -128,3 +128,5 @@ def character_edit_form(id):
         form.process(obj=character_list)
         form.process(obj=edit_character)
         return render_template('character/character_edit.html', form=form, character=edit_character, mode=mode, current_user=current_user)
+
+
