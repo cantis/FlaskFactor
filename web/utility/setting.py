@@ -1,4 +1,5 @@
-''' Save settings to the setting table and make them available to the application '''
+''' Save settings to the setting table and make them available to the application
+    supports caching settings '''
 from flask import session
 
 from web import db
@@ -6,7 +7,7 @@ from web.models import Setting
 
 
 def get_setting(setting_name, default='none'):
-    ''' Get the get a setting from cache or the database '''
+    ''' Get the get a setting from cache or database '''
 
     # Try to get the setting from the cache
     if session.get(setting_name):
@@ -30,7 +31,7 @@ def get_setting(setting_name, default='none'):
 
 
 def save_setting(setting_name, value):
-    ''' Add or update a setting '''
+    ''' Add or update a setting to the cache and database '''
     setting = Setting.query.filter_by(name=setting_name).first()
     if not setting:
         setting = Setting(
@@ -38,12 +39,13 @@ def save_setting(setting_name, value):
             value=value
         )
         db.session.add(setting)
+    else:
+        setting.value = value
     db.session.commit()
-
     session[setting_name] = value
 
 
 def clear_setting_cache():
-    ''' Clear the setting cache '''
+    ''' Clear the setting cache. '''
     for key in session.keys():
         session.pop(key)

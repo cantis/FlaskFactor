@@ -1,8 +1,8 @@
 """baseline
 
-Revision ID: 5509f24447c0
+Revision ID: 8e23cdaf3a9e
 Revises: 
-Create Date: 2021-04-13 13:46:46.386376
+Create Date: 2021-07-11 19:17:19.058139
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5509f24447c0'
+revision = '8e23cdaf3a9e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,6 +35,12 @@ def upgrade():
     sa.Column('last_name', sa.String(length=40), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('email', sa.String(length=100), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('settings',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=50), nullable=False),
+    sa.Column('value', sa.String(length=100), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -76,6 +82,7 @@ def downgrade():
     op.drop_table('items')
     op.drop_table('characters')
     op.drop_table('users')
+    op.drop_table('settings')
     op.drop_table('players')
     op.drop_table('parties')
     op.drop_table('item_types')
