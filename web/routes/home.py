@@ -11,13 +11,16 @@ home_bp = Blueprint('home_bp', __name__, template_folder='templates', static_fol
 @login_required
 def index():
     ''' Homepage '''
-    selected_id = get_setting('current_party')
 
+    # Get current party selection and dropdown list
+    selected_id = get_setting('current_party')
     if selected_id:
         selected_party = Party.query.get(selected_id).party_name
     else:
         selected_party = 'Please Select'
     party_list = Party.query.all()
+
+    # Render template with data
     return render_template('/home.html', current_user=current_user, party_menu=True, selected_party=selected_party, party_list=party_list)
 
 
@@ -25,7 +28,5 @@ def index():
 @login_required
 def change_current_party(id):
     ''' Change the current party '''
-
     save_setting('current_party', id)
-
     return redirect(url_for('home_bp.index'))

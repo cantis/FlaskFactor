@@ -54,8 +54,10 @@ def test_nav_select_party(client):
     # arrange
 
     # act
-    client.get('/nav_select_party/2', follow_redirects=True)
+    page_result = client.get('/nav_select_party/2', follow_redirects=True)
 
     # assert
-    result = Setting.query.filter_by(name='current_party').first()
-    assert result.value == '2'
+    setting_result = Setting.query.filter_by(name='current_party').first()
+    assert setting_result.value == '2'
+    assert b'Current Party: Dragon Company' in page_result.data
+    assert b'Current Party: Adventure Inc.' not in page_result.data
