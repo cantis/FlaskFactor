@@ -3,7 +3,7 @@
 from enum import Enum
 
 
-class ItemType(Enum):
+class ItemTypeEnum(Enum):
     ''' Enum for item types '''
     MELEE = 0
     RANGED = 1
