@@ -1,13 +1,14 @@
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey, Column, Integer, String, Boolean, Float
+from sqlalchemy import ForeignKey, Column, Integer, String, Boolean, Float, Numeric
 from sqlalchemy.orm import relationship
+
 
 
 from web import db, login_manager
 
 
 class Character(db.Model):
-    """ db Model for Character """
+    """ Data Model for Character """
     __tablename__ = 'characters'
     id = Column(Integer, primary_key=True)
     character_name = Column(String, nullable=False)
@@ -19,7 +20,7 @@ class Character(db.Model):
 
 
 class Item_Type(db.Model):
-    """ db model for Treasure Item Types """
+    """ Data model for Treasure Item Types """
     __tablename__ = 'item_types'
     id = Column(Integer, primary_key=True)
     item_type = Column(String, nullable=False)
@@ -27,7 +28,7 @@ class Item_Type(db.Model):
 
 
 class Item(db.Model):
-    """ db model for a Teasure Item """
+    """ Data model for a Teasure Item """
     __tablename__ = 'items'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
@@ -78,6 +79,20 @@ class Setting(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
     value = Column(String(100), nullable=False)
+
+
+class Receiving(db.Model):
+    ''' Data model for receiving items from adventurers'''
+    __tablename__ = 'receiving'
+    id = Column(Integer, primary_key=True)
+    receipt_id = Column(Integer)
+    session_id = Column(Integer)
+    party_id = Column(Integer, ForeignKey('parties.id'))
+    Item_Type_id = Column(Integer, ForeignKey('item_types.id'))
+    quantity = Column(Integer, nullable=False)
+    isCommitted = Column(Boolean, default=False)
+    item = Column(String(50), nullable=False)
+    purchase_price = Column(Numeric, nullable=False)
 
 
 def init_db():

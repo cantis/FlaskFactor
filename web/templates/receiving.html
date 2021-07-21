@@ -1,13 +1,28 @@
 {% extends "layout/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+{% endblock styles%}
 
 {% block content %}
     <div class="container">
-        <div class="col-md-3">
+        <!-- Header -->
+        <div class="row col-md-10">
+            <h1 id="page_header">Receiving Screen</h1>
         </div>
-        <div class="col-md-6">
-            <h1>Receiving Screen</h1>
+        <br>
+
+        <!-- Received Items List  -->
+        <div class="row col-md-offset-1 col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 {% endblock content %}
