@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for
+from flask.globals import request
 from flask_login import current_user, login_required
 from web.utility.setting import get_setting, save_setting
 from web.models import Party
@@ -29,4 +30,9 @@ def index():
 def change_current_party(id):
     ''' Change the current party '''
     save_setting('current_party', id)
-    return redirect(url_for('home_bp.index'))
+
+    # Route back to the calling page
+    if not request.referrer:
+        return redirect(url_for('home_bp.index'))
+    else:
+        return redirect(request.referrer)
