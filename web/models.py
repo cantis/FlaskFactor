@@ -3,7 +3,6 @@ from sqlalchemy import ForeignKey, Column, Integer, String, Boolean, Float, Nume
 from sqlalchemy.orm import relationship
 
 
-
 from web import db, login_manager
 
 

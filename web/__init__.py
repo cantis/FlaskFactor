@@ -58,3 +58,23 @@ def create_app():
 
     # after we're all done, return the application object. It becomes available via flask as app.
     return app
+
+
+def seed():
+    """ Seed the database with sample data """
+    # Item Types
+
+    from web.models import db, ItemType
+    db.session.add(ItemType(id=1, item_type='Melee'))
+    db.session.add(ItemType(id=2, item_type='Ranged'))
+    db.session.add(ItemType(id=3, item_type='Armour'))
+    db.session.add(ItemType(id=4, item_type='Ammunition'))
+    db.session.add(ItemType(id=5, item_type='Equipment'))
+    db.session.add(ItemType(id=6, item_type='Potion'))
+    db.session.add(ItemType(id=7, item_type='Wand'))
+    db.session.add(ItemType(id=8, item_type='Ring'))
+    db.session.add(ItemType(id=9, item_type='Scroll'))
+    db.session.add(ItemType(id=10, item_type='Misc Magic'))
+    db.session.add(ItemType(id=11, item_type='Treasure'))
+    db.session.add(ItemType(id=12, item_type='Consumable'))
+    db.session.commit()

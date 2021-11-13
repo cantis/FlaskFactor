@@ -16,12 +16,29 @@
 
         <!-- Received Items List  -->
         <div class="row col-md-offset-1 col-md-8">
-            <table class="table">
+            <table class="table" id="itemsTable">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th>Value</th>
+                        <th>SaleValue</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr>
+                        <td>{{received.name}}</td>
+                        <td>{{received.type}}</td>
+                        <td>{{received.quantity}}</td>
+                        <td>{{received.value}}</td>
+                        <td>{{received.saleValue}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="addItem()">Add</button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
