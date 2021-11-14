@@ -6,7 +6,7 @@ from web import db
 from web.models import Setting
 
 
-def get_setting(setting_name, default='none'):
+def get_setting(party_id, setting_name, default='none'):
     ''' Get the get a setting from cache or database '''
 
     # Try to get the setting from the cache
@@ -14,7 +14,7 @@ def get_setting(setting_name, default='none'):
         return session[setting_name]
 
     # Try to get the setting from the database
-    setting = Setting.query.filter_by(name=setting_name).first()
+    setting = Setting.query.filter_by(party_id=party_id, name=setting_name).first()
 
     # found it in the database
     if setting:
@@ -30,11 +30,12 @@ def get_setting(setting_name, default='none'):
         return None
 
 
-def save_setting(setting_name, value):
+def save_setting(party_id, setting_name, value):
     ''' Add or update a setting to the cache and database '''
-    setting = Setting.query.filter_by(name=setting_name).first()
+    setting = Setting.query.filter_by(party_id=party_id, name=setting_name).first()
     if not setting:
         setting = Setting(
+            party_id=party_id,
             name=setting_name,
             value=value
         )
@@ -43,6 +44,18 @@ def save_setting(setting_name, value):
         setting.value = value
     db.session.commit()
     session[setting_name] = value
+
+
+def save_common_setting(setting_name, value):
+    ''' Add or update a setting to the common cache and database'''
+    common_party_id = 0
+    save_setting(common_party_id, setting_name, value)
+
+
+def get_common_setting(setting_name, default='none'):
+    ''' Get the get a setting from the common cache or database '''
+    common_party_id = 0
+    return get_setting(common_party_id, setting_name, default)
 
 
 def clear_setting_cache():

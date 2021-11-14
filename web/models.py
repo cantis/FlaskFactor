@@ -76,6 +76,7 @@ class Setting(db.Model):
     ''' Data Model for an Application Setting '''
     __tablename__ = 'settings'
     id = Column(Integer, primary_key=True)
+    party_id = Column(Integer, ForeignKey('parties.id'))
     name = Column(String(50), nullable=False)
     value = Column(String(100), nullable=False)
 

@@ -8,7 +8,7 @@ from wtforms.validators import DataRequired, NumberRange, Optional
 from web import db
 from web.models import Party, Receiving
 from web.utility.enums import ItemTypeEnum
-from web.utility.setting import get_setting
+from web.utility.setting import get_common_setting
 
 
 # Blueprint Configuration
@@ -26,7 +26,7 @@ def show_receiving_list_form():
 
     # Get current party selection and dropdown listll
     party_list = Party.query.all()
-    selected_party_id = get_setting('current_party')
+    selected_party_id = get_common_setting(setting_name='current_party')
     if selected_party_id:
         selected_party = Party.query.get(selected_party_id).party_name
     else:

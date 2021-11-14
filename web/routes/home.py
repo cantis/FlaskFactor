@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for
 from flask.globals import request
 from flask_login import current_user, login_required
-from web.utility.setting import get_setting, save_setting
+from web.utility.setting import get_common_setting, save_common_setting
 from web.models import Party
 
 # Blueprint Configuration
@@ -14,7 +14,7 @@ def index():
     ''' Homepage '''
 
     # Get current party selection and dropdown list
-    selected_id = get_setting('current_party')
+    selected_id = get_common_setting('current_party')
     if selected_id:
         selected_party = Party.query.get(selected_id).party_name
     else:
@@ -29,7 +29,7 @@ def index():
 @login_required
 def change_current_party(id):
     ''' Change the current party '''
-    save_setting('current_party', id)
+    save_common_setting('current_party', id)
 
     # Route back to the calling page
     if not request.referrer:
