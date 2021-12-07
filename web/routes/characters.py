@@ -18,7 +18,7 @@ class AddCharacterForm(FlaskForm):
     """ Character Add Form """
     character_name = StringField(label='Character Name', validators=[InputRequired('A Character name is required.')])
     character_class = StringField(label='Character Class')
-    # NOTE: the wtformst_sqlalchemy.fields is a bit of ahack from https://pypi.org/project/WTForms-SQLAlchemy/
+    # NOTE: the wtformst_sqlalchemy.fields is a bit of a hack from https://pypi.org/project/WTForms-SQLAlchemy/
     # this is becaue support for ORM-backed fields is depricated in wtforms.
     party_id = QuerySelectField(
         label='Party',
@@ -121,7 +121,7 @@ def character_edit_form(id):
         db.session.commit()
         return redirect(url_for('character_bp.show_character_list_form'))
     else:
-        # Back to edit mode, validation failed. 
+        # Back to edit mode, validation failed.
         character_list = Character.query.all()
         mode = 'edit'
         form = EditCharacterForm()

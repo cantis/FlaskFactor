@@ -25,3 +25,7 @@ Finished up the Refactor of Character Edit and adding Party Edit!
 ## 08 Nov 21
 Picking this back up today, added some db-notes and working on the add-item refactor.
 
+## 3 Dec 21
+Restarting again... sigh long breaks, really should finsih this up. Have a receiving page up and it's list portion, need to add a form to receive the items.
+
+
