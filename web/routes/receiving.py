@@ -20,19 +20,21 @@ receiving_bp = Blueprint('receiving_bp', __name__, template_folder='templates', 
 # Form Definitions
 class AddItemForm(FlaskForm):
     ''' Form for receiving items '''
-    name = StringField('Name', validators=[DataRequired()])
-    type = SelectField('Type', choices=ItemTypeEnum.choices(), validators=[DataRequired()])
-    quantity = IntegerField('Count', validators=[DataRequired(), NumberRange(min=1)])
-    value = FloatField('Value', validators=[Optional()])
-    salevalue = FloatField('Sale Value', validators=[Optional()])
-    submit = SubmitField('Submit')
+    name = StringField(label='Name', validators=[DataRequired()])
+    # type = SelectField('Type', choices=ItemTypeEnum.choices(), validators=[DataRequired()])
+    type = StringField(label='Type', validators=[DataRequired()])
+    quantity = IntegerField(label='Count', validators=[DataRequired(), NumberRange(min=1)])
+    value = FloatField(label='Value', validators=[Optional()])
+    saleValue = FloatField(label='SaleValue', validators=[Optional()])
+    submit = SubmitField(label='Submit')
 
 
 class EditItemForm(FlaskForm):
     ''' Form for editing items '''
     id = HiddenField()
     name = StringField('Name', validators=[DataRequired()])
-    type = SelectField('Type', choices=ItemTypeEnum.choices(), validators=[DataRequired()])
+    # type = SelectField('Type', choices=ItemTypeEnum.choices(), validators=[DataRequired()])
+    type = StringField('Type', validators=[DataRequired()])
     quantity = IntegerField('Count', validators=[DataRequired(), NumberRange(min=1)])
     value = FloatField('Value', validators=[Optional()])
     salevalue = FloatField('Sale Value', validators=[Optional()])
@@ -48,6 +50,8 @@ def show_receiving_list_form():
     form = AddItemForm()
 
     # Get current party selection and dropdown listll
+
+    # Party List
     party_list = Party.query.all()
     selected_party_id = get_common_setting(setting_name='current_party')
     if selected_party_id:
