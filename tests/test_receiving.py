@@ -1,10 +1,9 @@
 """ Tests for receiving """
 import pytest
-from sqlalchemy.orm import session
 
 from config import TestConfig
 from web import create_app, db
-from web.models import Party, Receiving
+from web.models import Party, Receiving, ItemType
 from web.routes.receiving import next_receiving_id
 
 
@@ -22,6 +21,8 @@ def client(app):
         client = app.test_client()
 
         db.create_all()
+
+        db.session.add(ItemType(id='1', name='Melee'))
 
         db.session.add(Party(
             party_name='Adventure Inc.',
@@ -65,8 +66,9 @@ def test_next_receiving_number_returns_next_number(client):
             receipt_id=1,
             session_id=1,
             party_id=1,
-            Item_Type_id=1,
+            item_type_id='1',
             quantity=4,
+            item_name='sword',
             isCommitted=False,
             item='Short Sword',
             purchase_price=10.00

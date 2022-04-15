@@ -1,10 +1,11 @@
-''' Enums used in the application '''
+""" Enums used in the application """
 
-from enum import Enum
+from enum import IntEnum
 
 
-class ItemTypeEnum(Enum):
-    ''' Enum for item types '''
+class ItemTypeEnum(IntEnum):
+    """Enum for item types"""
+
     MELEE = 0
     RANGED = 1
     ARMOUR = 2

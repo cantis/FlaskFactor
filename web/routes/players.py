@@ -13,16 +13,16 @@ from web.models import Player
 player_bp = Blueprint('player_bp', __name__, template_folder='templates', static_folder='static')
 
 
-# Forms
+# Form Definitions
 class AddPlayerForm(FlaskForm):
-    ''' Player Add Form '''
+    """ Player Add Form """
     first_name = StringField(label='First Name', validators=[InputRequired('First Name required')])
     last_name = StringField(label='Last Name', validators=[InputRequired('Last Name required')])
     email = StringField(label='Email', validators=[InputRequired('Please add an email.'), Email('Invalid email format')])
 
 
 class EditPlayerForm(FlaskForm):
-    ''' Player Edit Form '''
+    """ Player Edit Form """
     id = HiddenField()
     first_name = StringField(label='First Name', validators=[InputRequired('First Name required')])
     last_name = StringField(label='Last Name', validators=[InputRequired('Last Name required')])
@@ -34,7 +34,7 @@ class EditPlayerForm(FlaskForm):
 @player_bp.route('/player', methods=['GET'])
 @login_required
 def player_form():
-    ''' Show list of players '''
+    """ Show list of players """
     player_list = Player.query.all()
     form = AddPlayerForm()
     mode = 'add'
@@ -44,7 +44,7 @@ def player_form():
 @player_bp.route('/player/add', methods=['POST'])
 @login_required
 def add_player():
-    ''' Process adding a player '''
+    """ Process adding a player """
     form = AddPlayerForm()
     if form.validate_on_submit():
         new_player = Player(
@@ -63,7 +63,7 @@ def add_player():
 @player_bp.route('/player/<id>', methods=['GET'])
 @login_required
 def player_edit_form_get(id):
-    ''' Show Player form in edit mode '''
+    """ Show Player form in edit mode """
     # TODO: Handle player not found
     player = Player.query.get(id)
     player_list = Player.query.all()
@@ -77,7 +77,7 @@ def player_edit_form_get(id):
 @player_bp.route('/player/<id>', methods=['POST'])
 @login_required
 def player_edit_form_post(id):
-    ''' Handle updates on the player edit form '''
+    """ Handle updates on the player edit form """
     player = Player.query.get(id)
     player_list = Player.query.all()
     form = EditPlayerForm()
