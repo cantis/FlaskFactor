@@ -94,8 +94,8 @@ def add_receiving_item():
         new_receiving = Receiving(
             id=next_receiving_id(party_id),
             party_id=party_id,
-            session_id=form.session_id.data,
-            item_name=form.item_name.data,
+            session_id=form.session.data,
+            item=form.item_name.data,
             type=form.type.data,
             quantity=form.quantity.data,
             value=form.value.data,
