@@ -1,0 +1,58 @@
+{% extends "layout/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+{% endblock styles%}
+
+{% block content %}
+    <div class="container">
+        <!-- Header -->
+        <div class="row col-md-10">
+            <h1 id="page_header">Receiving</h1>
+        </div>
+        <br>
+
+        <!-- Edit Received Item Form -->
+        <div class="row col-md-offset-1 col-md-9">
+            <h2>Edit Item</h2>
+            <form action="receiving/{{item.id}}" class="form-horizontal" method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="item_name" class="col-md-3 control-label">Name</label>
+                    <div class="col-md-6">
+                        {{form.name(class="form-control", placeholder="Item Name")}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="col-md-3 control-label">Type</label>
+                    <div class="col-md-6">
+                        {{form.type(class="form-control", placeholder="Item Type")}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="quantity" class="col-md-3 control-label">Quantity</label>
+                    <div class="col-md-2">
+                        {{form.quantity(class="form-control", placeholder="Quantity")}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="value" class="col-md-3 control-label">Value</label>
+                    <div class="col-md-6">
+                        {{form.value(class="form-control", placeholder="Value")}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="saleValue" class="col-md-3 control-label">Sale Value</label>
+                    <div class="col-md-6">
+                        {{form.saleValue(class="form-control", placeholder="Sale Value")}}
+                    </div>
+                </div>
+                <div class="col-md-offset-9">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

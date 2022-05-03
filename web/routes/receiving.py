@@ -2,8 +2,8 @@
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, SelectField
-from wtforms.fields.core import FloatField
+from wtforms import StringField, SubmitField, IntegerField
+from wtforms.fields.core import FloatField, BooleanField
 from wtforms.fields.simple import HiddenField
 from wtforms.validators import DataRequired, NumberRange, Optional
 
@@ -30,6 +30,7 @@ class AddItemForm(FlaskForm):
     )
     value = FloatField(label="Value", validators=[Optional()])
     saleValue = FloatField(label="SaleValue", validators=[Optional()])
+    addAnother = BooleanField(label="Add Another")
     submit = SubmitField(label="Submit")
 
 
@@ -62,6 +63,8 @@ def show_receiving_list_form():
     else:
         selected_party = "Please Select"  # TODO: if no party selected, show dialog prompting to select one
 
+    # Receiving Batch Number
+
     # Receiving list data
     received = Receiving.query.filter_by(
         party_id=selected_party_id,
@@ -81,15 +84,32 @@ def show_receiving_list_form():
     )
 
 
+@receiving_bp.route("/receiving/add", methods=["GET"])
+def show_receiving_form():
+    """show form for adding receiving items"""
+    form = AddItemForm()
+
+    itemTypes = ItemTypeEnum.__members__
+
+    # Party list and current party selection
+    party_list = Party.query.all()
+
+    # Get party id
+    party_id = get_common_setting(setting_name="current_party")
+
+    return render_template("receiving_add.html", form=form, itemTypes=itemTypes, party_id=party_id, party_list=party_list)
+
+
 @receiving_bp.route("/receiving/add", methods=["POST"])
 @login_required
 def add_receiving_item():
     """ Add receiving item to database """
     form = AddItemForm()
-    if form.validate_on_submit():
-        # Get party id
-        party_id = get_common_setting(setting_name="current_party")
 
+    # Get party id
+    party_id = get_common_setting(setting_name="current_party")
+
+    if form.validate_on_submit():
         # Create new receiving item
         new_receiving = Receiving(
             id=next_receiving_id(party_id),
@@ -106,12 +126,10 @@ def add_receiving_item():
         db.session.add(new_receiving)
         db.session.commit()
 
-    # Redirect to receiving list
-    return redirect(url_for("receiving_bp.show_receiving_list_form"))
-
-    # Show the form again
-    # return render_template('receiving.html', mode='add',
-    #                        current_user=current_user, party_menu=True, form=form)
+        if form.add_another.data is True:
+            return redirect(url_for("receiving_bp.show_receiving_form"))
+        else:
+            return redirect(url_for("receiving_bp.show_receiving_form"))
 
 
 # Utility
