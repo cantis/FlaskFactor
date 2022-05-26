@@ -8,5 +8,7 @@
   "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test_*.py"],
   "python.pythonPath": "env\\Scripts\\python.exe",
   "python.testing.pytestArgs": ["tests"],
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "spellright.language": ["en"],
+  "spellright.documentTypes": ["markdown", "latex", "plaintext"]
 }
