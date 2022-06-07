@@ -101,6 +101,3 @@ def test_show_player_edit_form(client):
 
     # assert
     assert b'Edit Player' in result.data
-    
-
-

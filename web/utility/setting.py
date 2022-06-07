@@ -6,7 +6,7 @@ from web import db
 from web.models import Setting
 
 
-def get_setting(party_id, setting_name, default='none'):
+def get_setting(party_id: int, setting_name: str, default='none') -> str:
     ''' Get the get a setting from cache or database '''
 
     # Try to get the setting from the cache
@@ -30,7 +30,7 @@ def get_setting(party_id, setting_name, default='none'):
         return None
 
 
-def save_setting(party_id, setting_name, value):
+def save_setting(party_id: int, setting_name: str, value: str) -> None:
     ''' Add or update a setting to the cache and database '''
     setting = Setting.query.filter_by(party_id=party_id, name=setting_name).first()
     if not setting:
@@ -46,19 +46,19 @@ def save_setting(party_id, setting_name, value):
     session[setting_name] = value
 
 
-def save_common_setting(setting_name, value):
+def save_common_setting(setting_name: str, value: str) -> None:
     ''' Add or update a setting to the common cache and database'''
     common_party_id = 0
     save_setting(common_party_id, setting_name, value)
 
 
-def get_common_setting(setting_name, default='none'):
+def get_common_setting(setting_name: str, default='none') -> str:
     ''' Get the get a setting from the common cache or database '''
     common_party_id = 0
     return get_setting(common_party_id, setting_name, default)
 
 
-def clear_setting_cache():
+def clear_setting_cache() -> None:
     ''' Clear the setting cache. '''
     for key in session.keys():
         session.pop(key)

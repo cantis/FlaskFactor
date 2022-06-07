@@ -96,7 +96,7 @@ class Receiving(db.Model):
     receipt_id = Column(Integer)  # Receipt ID, the batch number of this receipt
     session_id = Column(Integer)  # Session ID, the session number for the item
     party_id = Column(Integer, ForeignKey('parties.id'))
-    Item_Type_id = Column(Integer, ForeignKey('item_types.id'))
+    item_type_id = Column(Integer, ForeignKey('item_types.id'))
     quantity = Column(Integer, nullable=False)
     isCommitted = Column(Boolean, default=False)  # player this item is committed to
     item = Column(String(50), nullable=False)  # Item Description

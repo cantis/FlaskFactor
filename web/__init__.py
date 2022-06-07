@@ -18,7 +18,7 @@ migrate = Migrate()
 login_manager = LoginManager()
 
 
-def create_app():
+def create_app() -> Flask:
     """Set up flask app and init global objects"""
     app = Flask(__name__)
 

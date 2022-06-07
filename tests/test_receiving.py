@@ -5,6 +5,7 @@ from config import TestConfig
 from web import create_app, db
 from web.models import Party, Receiving, Item_Type
 from web.routes.receiving import next_receiving_id
+from web.utility.setting import save_common_setting
 
 
 # Test Fixtures
@@ -30,6 +31,8 @@ def client(app):
             is_active=True
             )
         )
+
+        db.session.commit()
 
         yield client
         db.drop_all()
@@ -87,11 +90,13 @@ def test_navigate_to_receiving_edit(client):
 def test_add_receiving_item_valid_data_ok(client):
     # arrange
     with client.application.test_request_context():
+        save_common_setting(setting_name='current_party', value='1')
+
         # act
         response = client.post('/receiving/add', data={
             'session': 1,
             'item_name': 'Short Sword',
-            'type': 'Melee',
+            'item_type_id': 1,
             'quantity': 4,
             'value': 10.00,
             'saleValue': 10.00,

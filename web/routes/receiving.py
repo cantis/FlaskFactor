@@ -116,7 +116,7 @@ def add_receiving_item():
             party_id=party_id,
             session_id=form.session.data,
             item=form.item_name.data,
-            type=form.type.data,
+            item_type_id=form.item_type_id.data,
             quantity=form.quantity.data,
             value=form.value.data,
             salevalue=form.saleValue.data,
@@ -130,6 +130,34 @@ def add_receiving_item():
             return redirect(url_for("receiving_bp.show_receiving_form"))
         else:
             return redirect(url_for("receiving_bp.show_receiving_form"))
+
+
+@receiving_bp.route("/receiving/edit/<id>", methods=["GET"])
+def show_edit_receiving_form(id: int):
+    """show form for editing receiving items"""
+    form = EditItemForm()
+
+    # Get receiving item
+    receiving = Receiving.query.get(id)
+
+    # Get party id
+    party_id = get_common_setting(setting_name="current_party")
+
+    # Get party list and current party selection
+    party_list = Party.query.all()
+
+    # Get item types
+    itemTypes = ItemTypeEnum.__members__
+
+    # Show the form
+    return render_template(
+        "receiving_edit.html",
+        form=form,
+        receiving=receiving,
+        itemTypes=itemTypes,
+        party_id=party_id,
+        party_list=party_list,
+    )
 
 
 # Utility
