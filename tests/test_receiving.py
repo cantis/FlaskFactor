@@ -1,5 +1,6 @@
 """ Tests for receiving """
 import pytest
+from sqlalchemy import true
 
 from config import TestConfig
 from web import create_app, db
@@ -66,15 +67,15 @@ def test_navigate_to_receiving_add(client):
 def test_navigate_to_receiving_edit(client):
     # arrange
     db.session.add(Receiving(
-            receipt_id=1,
-            session_id=1,
-            party_id=1,
-            Item_Type_id='1',
-            quantity=4,
-            isCommitted=False,
-            item='Short Sword',
-            purchase_price=10.00
-        ))
+        receipt_id=1,
+        session_id=1,
+        party_id=1,
+        item_type_id=1,
+        quantity=4,
+        isCommitted=False,
+        item='Short Sword',
+        purchase_price=10.00
+    ))
     db.session.commit()
 
     with client.application.test_request_context():
@@ -88,14 +89,15 @@ def test_navigate_to_receiving_edit(client):
 
 # Add Item Tests
 def test_add_receiving_item_valid_data_ok(client):
-    # arrange
     with client.application.test_request_context():
+        # arrange
         save_common_setting(setting_name='current_party', value='1')
 
         # act
         response = client.post('/receiving/add', data={
             'session': 1,
             'item_name': 'Short Sword',
+            'type': 'Melee',
             'item_type_id': 1,
             'quantity': 4,
             'value': 10.00,
@@ -103,6 +105,7 @@ def test_add_receiving_item_valid_data_ok(client):
             'add_another': True
         }
         )
+
         # assert
         assert response.status_code == 200
 

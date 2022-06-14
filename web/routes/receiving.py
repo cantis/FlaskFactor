@@ -116,7 +116,7 @@ def add_receiving_item():
             party_id=party_id,
             session_id=form.session.data,
             item=form.item_name.data,
-            item_type_id=form.item_type_id.data,
+            type=form.type.data,
             quantity=form.quantity.data,
             value=form.value.data,
             salevalue=form.saleValue.data,
