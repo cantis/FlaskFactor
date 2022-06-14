@@ -1,3 +1,4 @@
+from decimal import Decimal
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey, Column, Integer, String, Boolean, Float
 from sqlalchemy.orm import relationship
@@ -78,6 +79,35 @@ class Setting(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
     value = Column(String(100), nullable=False)
+
+
+class Receiving_Header(db.Model):
+    ''' Data Model for the Receiving Header '''
+    __tablename__ = 'receiving_header'
+    id = Column(Integer, primary_key=True)
+    receiving_no = Column(Integer, nullable=False)  # batch number for this receiept
+    receiving_date = Column(String(10), nullable=False)  # date of receipt (realtime)
+    session_id = Column(Integer, nullable=False)  # session id for this receipt
+    party_id = Column(Integer, ForeignKey('parties.id'))  # party id for this receipt
+    is_closed = Column(Boolean, default=False)  # is this receipt closed?
+    is_complete = Column(Boolean, default=False)  # is this receipt complete?
+
+
+class Receiving_Detail(db.Model):
+    ''' Data Model for the Receiving Detail '''
+    __tablename__ = 'receiving_detail'
+    id = Column(Integer, primary_key=True)
+    header_id = Column(Integer, ForeignKey('receiving_header.id'))
+    line_no = Column(Integer, nullable=False)  # line number for this detail
+    item_type_id = Column(Integer, ForeignKey('item_types.id'))  # item type id for this detail
+    description = Column(String(100), nullable=False)  # description for this detail
+    quantity = Column(Integer, nullable=False)  # quantity received
+    book_price = Column(Decimal, nullable=False)  # book price for this detail
+    notes = Column(String(max))  # notes for this detail
+    is_committed = Column(Boolean, default=False)  # is this detail committed to someone/thing
+    is_special = Column(Boolean, default=False)  # is this detail a special item 
+
+
 
 
 def init_db():
