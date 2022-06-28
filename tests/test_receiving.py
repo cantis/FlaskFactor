@@ -80,7 +80,11 @@ def test_navigate_to_receiving_edit(client):
 
     with client.application.test_request_context():
         # act
-        response = client.get('/receiving/edit/1')
+        try:
+            response = client.get('/receiving/edit/1')
+        except Exception as e:
+            print(e)
+            assert False
 
         # assert
         assert response.status_code == 200

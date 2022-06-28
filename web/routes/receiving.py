@@ -139,6 +139,7 @@ def show_edit_receiving_form(id: int):
 
     # Get receiving item
     receiving = Receiving.query.get(id)
+    item = receiving.item
 
     # Get party id
     party_id = get_common_setting(setting_name="current_party")
@@ -155,6 +156,7 @@ def show_edit_receiving_form(id: int):
         form=form,
         receiving=receiving,
         itemTypes=itemTypes,
+        item_name=item,
         party_id=party_id,
         party_list=party_list,
     )
