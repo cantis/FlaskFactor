@@ -139,6 +139,7 @@ cython_debug/
 
 # Sqlite Database
 .sqlite
+/data
 
 # Python Code Coverage
 cov.xml
