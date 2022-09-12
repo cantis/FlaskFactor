@@ -10,19 +10,27 @@ from web.models import Party
 
 
 # Blueprint Configuration
-party_bp = Blueprint('party_bp', __name__, template_folder='templates', static_folder='static')
+party_bp = Blueprint(
+    'party_bp', __name__, template_folder='templates', static_folder='static'
+)
 
 
 # Form Definition
 class AddPartyForm(FlaskForm):
-    """ Party Add Form """
-    party_name = StringField(label='Party Name', validators=[InputRequired('A Party Name is required.')])
+    """Party Add Form"""
+
+    party_name = StringField(
+        label='Party Name', validators=[InputRequired('A Party Name is required.')]
+    )
 
 
 class EditPartyForm(FlaskForm):
-    """ Party Edit Form """
+    """Party Edit Form"""
+
     id = HiddenField()
-    party_name = StringField(label='Party Name', validators=[InputRequired('A Party Name is required.')])
+    party_name = StringField(
+        label='Party Name', validators=[InputRequired('A Party Name is required.')]
+    )
     is_active = BooleanField(label='Active')
 
 
@@ -30,11 +38,17 @@ class EditPartyForm(FlaskForm):
 @party_bp.route('/party', methods=['GET'])
 @login_required
 def show_party_form():
-    """ Show list of Adventuring Parties """
+    """Show list of Adventuring Parties"""
     party_list = Party.query.all()
     form = AddPartyForm()
     mode = 'add'
-    return render_template('/party.html', party_list=party_list, current_user=current_user, form=form, mode=mode)
+    return render_template(
+        '/party.html',
+        party_list=party_list,
+        current_user=current_user,
+        form=form,
+        mode=mode,
+    )
 
 
 @party_bp.route('/party/add', methods=['POST'])
@@ -43,10 +57,7 @@ def add_party():
     form = AddPartyForm()
 
     if form.validate_on_submit():
-        new_party = Party(
-            party_name=form.party_name.data,
-            is_active=True
-        )
+        new_party = Party(party_name=form.party_name.data, is_active=True)
         db.session.add(new_party)
         db.session.commit()
         flash('Party Added', 'success')
@@ -57,7 +68,7 @@ def add_party():
 @party_bp.route('/party/<id>', methods=['GET', 'POST'])
 @login_required
 def show_party_edit_form(id):
-    """ Show party edit form and handle updates """
+    """Show party edit form and handle updates"""
     form = EditPartyForm()
     party_list = Party.query.all()
     edit_party = Party.query.filter_by(id=id).first()
@@ -73,4 +84,11 @@ def show_party_edit_form(id):
     else:
         mode = 'edit'
         form.process(obj=edit_party)
-        return render_template('party.html', party_list=party_list, form=form, party=edit_party, current_user=current_user, mode=mode)
+        return render_template(
+            'party.html',
+            party_list=party_list,
+            form=form,
+            party=edit_party,
+            current_user=current_user,
+            mode=mode,
+        )

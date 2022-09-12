@@ -53,7 +53,7 @@ def signup_post():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email=form.email.data.lower(),
-            password=generate_password_hash(form.password.data, method='sha256')
+            password=generate_password_hash(form.password.data, method='sha256'),
         )
 
         # check if the user exists
@@ -86,7 +86,8 @@ def profile():
 
 
 class LoginForm(FlaskForm):
-    """ Login Form """
+    """Login Form"""
+
     email = EmailField(validators=[InputRequired('Please enter your email.')])
     password = PasswordField(validators=[InputRequired('Please enter your password.')])
     remember_me = BooleanField()
@@ -94,10 +95,16 @@ class LoginForm(FlaskForm):
 
 
 class SignupForm(FlaskForm):
-    """ Signup Form """
+    """Signup Form"""
+
     first_name = StringField(validators=[InputRequired('Please enter your firstname.')])
     last_name = StringField(validators=[InputRequired('Please enter your last name.')])
     email = EmailField(validators=[InputRequired('Please enter your email.')])
-    password = PasswordField(validators=[InputRequired('Please enter a password.'), EqualTo('confirm', message='Passwords must match.')])
+    password = PasswordField(
+        validators=[
+            InputRequired('Please enter a password.'),
+            EqualTo('confirm', message='Passwords must match.'),
+        ]
+    )
     confirm = PasswordField()
     submit = SubmitField('Sign Up')

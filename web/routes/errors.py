@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template
 
 
-error_bp = Blueprint('error_bp', __name__, template_folder='templates', static_folder='static')
+error_bp = Blueprint(
+    'error_bp', __name__, template_folder='templates', static_folder='static'
+)
 
 
 @error_bp.app_errorhandler(404)
