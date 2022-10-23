@@ -65,7 +65,7 @@ class EditCharacterForm(FlaskForm):
     )
 
 
-# Handlers
+# Route Definitions
 @character_bp.route('/character', methods=['GET'])
 @login_required
 def show_character_list_form():
@@ -77,7 +77,7 @@ def show_character_list_form():
         character_list=character_list,
         form=form,
         mode=mode,
-        current_user=current_user,
+        current_user=current_user
     )
 
 
@@ -93,7 +93,7 @@ def add_character():
             player_id=form.player_id.data.id,
             party_id=form.party_id.data.id,
             is_active=True,
-            is_dead=False,
+            is_dead=False
         )
         db.session.add(new_character)
         db.session.commit()
