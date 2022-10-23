@@ -138,4 +138,9 @@ dmypy.json
 cython_debug/
 
 # Sqlite Database
-.sqlite
+*.sqlite
+*.sqlite3
+*.db
+
+#Code Coverage
+cov.xml
