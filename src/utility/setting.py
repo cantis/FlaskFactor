@@ -2,8 +2,8 @@
     supports caching settings '''
 from flask import session
 
-from web import db
-from web.models import Setting
+from src import db
+from src.models import Setting
 
 
 def get_setting(setting_name, default='none'):

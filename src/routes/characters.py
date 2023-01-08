@@ -5,8 +5,8 @@ from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired, DataRequired
 from wtforms_sqlalchemy.fields import QuerySelectField
 
-from web import db
-from web.models import Character, Player, Party
+from src import db
+from src.models import Character, Player, Party
 
 
 # Blueprint Configuration

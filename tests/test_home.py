@@ -1,8 +1,8 @@
 import pytest
 
-from web import create_app, db
+from src import create_app, db
 from config import TestConfig
-from web.models import Party, Setting
+from src.models import Party, Setting
 
 
 @pytest.fixture(scope='session')

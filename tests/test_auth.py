@@ -2,8 +2,8 @@
 import pytest
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from web import create_app, db
-from web.models import User
+from src import create_app, db
+from src.models import User
 from config import TestConfig
 
 

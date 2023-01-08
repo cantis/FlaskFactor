@@ -2,11 +2,10 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash
-from wtforms import StringField, PasswordField
-from wtforms.fields.core import BooleanField
+from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 
-from web.models import User, db
+from src.models import User, db
 
 # Blueprint Configuration
 user_bp = Blueprint('user_bp', __name__, template_folder='templates', static_folder='static')

@@ -2,8 +2,8 @@ import pytest
 
 
 from config import TestConfig
-from web import create_app, db
-from web.models import Character, Player, Party
+from src import create_app, db
+from src.models import Character, Player, Party
 
 
 @pytest.fixture(scope='session')
@@ -42,7 +42,7 @@ def client(app):
             player_id=1,
             party_id=1
         ))
-        db.session.commit() 
+        db.session.commit()
 
         yield client
         db.drop_all()

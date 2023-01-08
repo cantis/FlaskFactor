@@ -2,9 +2,9 @@
 import pytest
 
 from config import TestConfig
-from web import create_app, db
-from web.models import Setting
-from web.utility.setting import get_setting, save_setting
+from src import create_app, db
+from src.models import Setting
+from src.utility.setting import get_setting, save_setting
 
 
 @pytest.fixture(scope='session')

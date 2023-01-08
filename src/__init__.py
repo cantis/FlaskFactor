@@ -45,7 +45,7 @@ def create_app():
     # login_manager.login_message_category = 'info'
 
     # Import parts of our application (add new 'components' here)
-    from web.routes import home, characters, players, parties, auth, errors, receiving
+    from src.routes import home, characters, players, parties, auth, errors, receiving
 
     # Register Blueprints
     app.register_blueprint(home.home_bp)

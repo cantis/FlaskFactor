@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey, Column, Integer, String, Boolean, Float
 from sqlalchemy.orm import relationship
 
 
-from web import db, login_manager
+from src import db, login_manager
 
 
 class Character(db.Model):

@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, BooleanField
+
 
 # Blueprint Configuration
 receiving_bp = Blueprint(

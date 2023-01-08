@@ -1,8 +1,8 @@
 import pytest
 
 from config import TestConfig
-from web import create_app, db
-from web.models import Player
+from src import create_app, db
+from src.models import Player
 
 
 @pytest.fixture(scope='session')
@@ -101,6 +101,6 @@ def test_show_player_edit_form(client):
 
     # assert
     assert b'Edit Player' in result.data
-    
+
 
 

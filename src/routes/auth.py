@@ -3,13 +3,11 @@ from flask_login import login_user
 from flask_login.utils import logout_user
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from wtforms.fields.core import BooleanField
-from wtforms.fields.html5 import EmailField
-from wtforms.fields.simple import SubmitField, PasswordField, StringField
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, EmailField
 from wtforms.validators import InputRequired, EqualTo
 
-from web import db
-from web.models import User
+from src import db
+from src.models import User
 
 auth_bp = Blueprint('auth_bp', __name__, template_folder='templates')
 

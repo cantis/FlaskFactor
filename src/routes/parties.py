@@ -5,8 +5,8 @@ from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired
 from werkzeug.exceptions import InternalServerError
 
-from web import db
-from web.models import Party
+from src import db
+from src.models import Party
 
 
 # Blueprint Configuration

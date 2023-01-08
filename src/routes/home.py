@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import current_user, login_required
-from web.utility.setting import get_setting, save_setting
-from web.models import Party
+from src.utility.setting import get_setting, save_setting
+from src.models import Party
 
 # Blueprint Configuration
 home_bp = Blueprint(

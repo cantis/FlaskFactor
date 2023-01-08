@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, url_for, redirect, flash
 from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField
-from wtforms.fields.core import BooleanField
+from wtforms import StringField, HiddenField, BooleanField
 from wtforms.validators import InputRequired, Email
 
-from web import db
-from web.models import Player
+from src import db
+from src.models import Player
 
 
 # Blueprint Configuration
