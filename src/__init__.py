@@ -7,7 +7,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 import os
 
-from config import DevConfig, StageConfig
+from config import DevConfig, StageConfig, TestConfig
 
 # create global objects
 db = SQLAlchemy()
@@ -30,6 +30,9 @@ def create_app():
 
     if environment == 'stage':
         app.config.from_object(StageConfig())
+
+    if environment == 'test':
+        app.config.from_object(TestConfig())
 
     # initalize global objects
     db.init_app(app)

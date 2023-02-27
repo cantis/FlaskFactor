@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from config import TestConfig
@@ -7,10 +8,9 @@ from src.models import Character, Player, Party
 
 @pytest.fixture(scope='session')
 def app():
+    os.environ['ENV'] = 'test'
     app = create_app()
-    config = TestConfig()
-    app.config.from_object(config)
-    return app
+    yield app
 
 
 @pytest.fixture(scope='function')

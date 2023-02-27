@@ -1,18 +1,17 @@
 ''' Tests for user creation and authorization '''
+import os
 import pytest
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from src import create_app, db
 from src.models import User
-from config import TestConfig
 
 
 @pytest.fixture(scope='session')
 def app():
     ''' Application Ficture '''
+    os.environ['ENV'] = 'test'
     app = create_app()
-    config = TestConfig()
-    app.config.from_object(config)
     return app
 
 
