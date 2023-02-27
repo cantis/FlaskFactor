@@ -37,7 +37,7 @@ def client(app):
         db.drop_all()
 
 
-def test_show_login(client):
+def test_show_login(client) -> None:
     # arrange
 
     # act
@@ -47,7 +47,7 @@ def test_show_login(client):
     assert b'Login' in result.data
 
 
-def test_show_signup(client):
+def test_show_signup(client) -> None:
     # arrange
 
     # act
@@ -57,7 +57,7 @@ def test_show_signup(client):
     assert b'Sign Up' in result.data
 
 
-def test_logout_user(client):
+def test_logout_user(client) -> None:
     # arrange
 
     # act
@@ -67,7 +67,7 @@ def test_logout_user(client):
     assert b'Login' in result.data
 
 
-def test_capitals_in_signup(client):
+def test_capitals_in_signup(client) -> None:
     ''' capitals in username should be auto lowercased '''
     # act
     form_data = dict(first_name='Test', last_name='User', email='Someone@Gmail.com', password='Monday1', confirm='Monday1')
@@ -79,7 +79,7 @@ def test_capitals_in_signup(client):
     assert user.email == 'someone@gmail.com'
 
 
-def test_capitals_in_login(client):
+def test_capitals_in_login(client) -> None:
     ''' user has capitals in login email '''
     # arrange
 
@@ -91,7 +91,7 @@ def test_capitals_in_login(client):
     assert b'Characters' in result.data
 
 
-def test_attempt_signup_existing_user(client):
+def test_attempt_signup_existing_user(client) -> None:
     ''' User exists, we should redirect to signup '''
     # arrange
 
@@ -103,7 +103,7 @@ def test_attempt_signup_existing_user(client):
     assert b'Signup' in result.data
 
 
-def test_attempt_signup_missing_data(client):
+def test_attempt_signup_missing_data(client) -> None:
     ''' Missing data, we should redirect to signup '''
     # arrange
 
@@ -115,7 +115,7 @@ def test_attempt_signup_missing_data(client):
     assert b'Signup' in result.data
 
 
-def test_signup_ok(client):
+def test_signup_ok(client) -> None:
     ''' Ok user Add, redirect to login, data added '''
     # arrange
 
@@ -129,7 +129,7 @@ def test_signup_ok(client):
     assert user is not None
 
 
-def test_check_signup_password_hashed(client):
+def test_check_signup_password_hashed(client) -> None:
     ''' Check the password has been hashed ok '''
     # arrange
 
@@ -139,10 +139,10 @@ def test_check_signup_password_hashed(client):
 
     # assert
     user = User.query.filter_by(id=2).first()
-    assert check_password_hash(user.password, b'Monday1')
+    assert check_password_hash(user.password, 'Monday1')
 
 
-def test_login_ok(client):
+def test_login_ok(client) -> None:
     ''' Valid Login, no characters '''
     # arrange
 
@@ -154,7 +154,7 @@ def test_login_ok(client):
     assert b'Characters' in result.data
 
 
-def test_login_invalid_password(client):
+def test_login_invalid_password(client) -> None:
     ''' Invalid Login, bad password '''
     # arrange
 
@@ -166,7 +166,7 @@ def test_login_invalid_password(client):
     assert b'Login' in result.data
 
 
-def test_login_missing_email(client):
+def test_login_missing_email(client) -> None:
     ''' Invalid Login, missing email '''
     # arrange
 

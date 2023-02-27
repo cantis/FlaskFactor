@@ -8,6 +8,7 @@ from src.utility.setting import get_setting, save_setting
 
 @pytest.fixture(scope='function')
 def dbclient(app):
+    '''fixture with some settings in the database'''
     with app.app_context():
         client = app.test_client()
         db.create_all()
@@ -22,14 +23,15 @@ def dbclient(app):
 
 @pytest.fixture(scope='function')
 def client(app):
+    '''fixture with empty database'''
     with app.app_context():
         client = app.test_client()
         yield client
 
 
-def test_get_setting(client, mocker):
+def test_get_setting(dbclient):
     # arrange
-    mocker.patch('src.utility.setting.get_setting', return_value=['1'])
+
 
     # act
     with dbclient.application.test_request_context('/'):
