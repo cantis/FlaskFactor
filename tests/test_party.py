@@ -1,15 +1,7 @@
-import os
 import pytest
 
-from src import create_app, db
+from src import db
 from src.models import Character, Player, Party
-
-
-@pytest.fixture(scope="session")
-def app():
-    os.environ["ENV"] = "test"
-    app = create_app()
-    yield app
 
 
 @pytest.fixture(scope="function")

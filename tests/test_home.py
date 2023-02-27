@@ -1,16 +1,7 @@
-import os
 import pytest
 
-from src import create_app, db
+from src import db
 from src.models import Party, Setting
-
-
-@pytest.fixture(scope='session')
-def app():
-    ''' Application Ficture '''
-    os.environ['ENV'] = 'test'
-    app = create_app()
-    yield app
 
 
 @pytest.fixture(scope='function')

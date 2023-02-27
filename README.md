@@ -29,3 +29,7 @@ Well, picking this up after a (very) long time... Adding the receiving form and 
 Added configuration for black formatter to the app.
 I've been learning mocking and patching for tests, I'll try adding some more proper test. Added the MIT Licence File
 
+**26 Feb 23**
+Doing some reading around the testing I'm setting up. Perhaps my 'in memory' testing is just fine, it is certainly less hassle than the mocking route.
+I've reverted my mocking changes, added a `conftest` file and I'm setting up the tests to use a single shared app profile.
+

@@ -1,17 +1,9 @@
 """ Tests for setting utility """
-import os
 import pytest
 
-from src import create_app, db
+from src import db
 from src.models import Setting
 from src.utility.setting import get_setting, save_setting
-
-
-@pytest.fixture(scope='session')
-def app():
-    os.environ['ENV'] = 'test'
-    app = create_app()
-    yield app
 
 
 @pytest.fixture(scope='function')
