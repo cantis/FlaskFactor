@@ -1,16 +1,7 @@
 import pytest
 
-from config import TestConfig
-from src import create_app, db
+from src import db
 from src.models import Player
-
-
-@pytest.fixture(scope='session')
-def app():
-    app = create_app()
-    config = TestConfig()
-    app.config.from_object(config)
-    return app
 
 
 @pytest.fixture(scope='function')

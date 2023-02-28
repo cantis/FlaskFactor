@@ -1,17 +1,7 @@
 import pytest
 
-from src import create_app, db
-from config import TestConfig
+from src import db
 from src.models import Party, Setting
-
-
-@pytest.fixture(scope='session')
-def app():
-    ''' Application Ficture '''
-    app = create_app()
-    config = TestConfig()
-    app.config.from_object(config)
-    return app
 
 
 @pytest.fixture(scope='function')
