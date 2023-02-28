@@ -10,27 +10,21 @@ from src.models import Party
 
 
 # Blueprint Configuration
-party_bp = Blueprint(
-    'party_bp', __name__, template_folder='templates', static_folder='static'
-)
+party_bp = Blueprint('party_bp', __name__, template_folder='templates', static_folder='static')
 
 
 # Form Definition
 class AddPartyForm(FlaskForm):
-    """Party Add Form"""
+    '''Party Add Form'''
 
-    party_name = StringField(
-        label='Party Name', validators=[InputRequired('A Party Name is required.')]
-    )
+    party_name = StringField(label='Party Name', validators=[InputRequired('A Party Name is required.')])
 
 
 class EditPartyForm(FlaskForm):
-    """Party Edit Form"""
+    '''Party Edit Form'''
 
     id = HiddenField()
-    party_name = StringField(
-        label='Party Name', validators=[InputRequired('A Party Name is required.')]
-    )
+    party_name = StringField(label='Party Name', validators=[InputRequired('A Party Name is required.')])
     is_active = BooleanField(label='Active')
 
 
@@ -38,7 +32,7 @@ class EditPartyForm(FlaskForm):
 @party_bp.route('/party', methods=['GET'])
 @login_required
 def show_party_form():
-    """Show list of Adventuring Parties"""
+    '''Show list of Adventuring Parties'''
     party_list = Party.query.all()
     form = AddPartyForm()
     mode = 'add'
@@ -68,7 +62,7 @@ def add_party():
 @party_bp.route('/party/<id>', methods=['GET', 'POST'])
 @login_required
 def show_party_edit_form(id):
-    """Show party edit form and handle updates"""
+    '''Show party edit form and handle updates'''
     form = EditPartyForm()
     party_list = Party.query.all()
     edit_party = Party.query.filter_by(id=id).first()
