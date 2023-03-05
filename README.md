@@ -1,14 +1,32 @@
 # Flask Factor
 
-*Evan Young February 2021*
+_Evan Young February 2021, Feb 2023_
 
-## Summary
-Flack Factor is a treasure management system for Pathfinder RPG, it attempts to provide a place to collect treasure that our adventuring company collects, value it and distribute it. It could be given to a company member, stored, or sold by our 'Factor' a kind of merchant. The money earned from sales is returned to the company and can be distributed to the members of the company with an option for a percentage to be held in the company 'account'.
+[Intention](#intention)\
+[Developer Setup](#developer-setup)\
+[Journal](#journal)
+
+## Intention
+
+Flack Factor is intended as a treasure management system for Pathfinder RPG, it attempts to provide a place to collect treasure that our adventuring company collects, value it and distribute it. It could be given to a company member, stored, or sold by our 'Factor' (a contracted merchant). The money earned from sales is returned to the company and can be distributed to the members of the company with an option for a percentage to be held in the company 'Bank'.
 
 Note, this is a readme, yes, but it's also an account of my 'run' with getting this developed so take that as you might.
 
 ## Note
+
 This is a Python / Flask / SQLite etc. learning project for me so please don't use this as a good example of programming, still very much learning this stack.
+
+## Developer Setup
+
+To restore this application and make it ready for development
+
+1. Clone the repository
+2. Set up a virtual environment `PS py -m venv .venv`
+3. Activate the virtual environment `PS .venv/scripts/activate` _venv should be active before poetry install is run!_
+4. Run `PS poetry install` to restore dependencies
+5. To recreate the database run `PS `
+
+## Journal
 
 **20 Feb 21**
 Returning to this after a bit away on my CoinPurse project, need to re-factor a bunch to match that structure better.
@@ -28,7 +46,7 @@ Well, picking this up after a (very) long time... Adding the receiving form and 
 **25 Feb 23**
 Added configuration for black formatter to the app.
 I've been learning mocking and patching for tests, I'll try adding some more proper test. Added the MIT Licence File
-
+Updated flask to the current version - that updated a **bunch** of dependencies!
 **26 Feb 23**
 Doing some reading around the testing I'm setting up. Perhaps my 'in memory' testing is just fine, it is certainly less hassle than the mocking route.
 I've reverted my mocking changes, added a `conftest` file and I'm setting up the tests to use a single shared app profile.
