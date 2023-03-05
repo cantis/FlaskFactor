@@ -2,6 +2,8 @@ from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 
+from src.models import Item_Type
+
 
 # Blueprint Configuration
 receiving_bp = Blueprint(
@@ -21,8 +23,10 @@ class EditReceivingForm(FlaskForm):
 # Route Definitions
 @receiving_bp.route('/receiving', methods=['GET'])
 @login_required
-def receivin_list():
+def receiving_list():
+    '''Show the receiving page'''
     mode = 'add'
+    item_type_list = list(Item_Type.query.all())
     return render_template(
-        'receiving.html', mode=mode, current_user=current_user
+        'receiving.html', mode=mode, current_user=current_user, item_type_list=item_type_list
     )

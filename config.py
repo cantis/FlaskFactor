@@ -48,7 +48,7 @@ class DevConfig(BaseConfig):
     TESTING = True
     DEBUG = True
     # SQLALCHEMY_DATABASE_URI = environ.get('DEV_DATABASE_URI')
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///../data/factor.sqlite'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../instance/factor.sqlite'
 
 
 class TestConfig(BaseConfig):
